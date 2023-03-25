@@ -1,0 +1,574 @@
+{
+	"info": {
+		"_postman_id": "f7feb043-3702-475d-ad58-4ffe6518b140",
+		"name": "PROYECTO GESTOR HOTELES G1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Michael Salvatierra",
+			"item": [
+				{
+					"name": "Usuarios",
+					"item": [
+						{
+							"name": "Admin APP CRUD",
+							"item": [
+								{
+									"name": "POST Agregar Admin APP",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nombre\": \"Steven Penate\",\r\n    \"correo\": \"msalvatierra@corrreo.com\",\r\n    \"password\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/admin/agregar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"agregar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Mostrar Admin APP",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODUxMDdkY2VmYmM3ZTllMzAyMTMiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMTc2MywiZXhwIjoxNjc5NzM2MTYzfQ.TpXGS8AK9j2FHGrzHo2uPTapnv1EYOIg-2vZTqRQED4",
+												"type": "default"
+											}
+										],
+										"url": {
+											"raw": "localhost:8080/api/admin/mostrar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"mostrar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PUT Editar Admin APP",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODUxMDdkY2VmYmM3ZTllMzAyMTMiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMTc2MywiZXhwIjoxNjc5NzM2MTYzfQ.TpXGS8AK9j2FHGrzHo2uPTapnv1EYOIg-2vZTqRQED4",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nombre\": \"Michael Salvatierra\",\r\n    \"correo\": \"msalvatierra-2021150@corrreo.com\",\r\n    \"password\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/admin/editar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"editar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Eliminar Admin APP",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODUxMDdkY2VmYmM3ZTllMzAyMTMiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMTc2MywiZXhwIjoxNjc5NzM2MTYzfQ.TpXGS8AK9j2FHGrzHo2uPTapnv1EYOIg-2vZTqRQED4",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "localhost:8080/api/admin/eliminar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"eliminar"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Admin HOTEL CRUD",
+							"item": [
+								{
+									"name": "POST Agregar Admin Hotel",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nombre\": \"Luois pere\",\r\n    \"correo\": \"lperez@corrreo.com\",\r\n    \"password\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/adminHotel/agregar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"adminHotel",
+												"agregar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Mostrar Admin  Hotel",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlOGE3YjMyODg3YTBkMjVmYjYwMGIiLCJub21icmUiOiJMdW9pcyBwZXJlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMzE5OCwiZXhwIjoxNjc5NzM3NTk4fQ.BvWpEwBu4ixw2KteI3eURJlHVVBc93wDINcXFmiYg58",
+												"type": "default"
+											}
+										],
+										"url": {
+											"raw": "localhost:8080/api/adminHotel/mostrar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"adminHotel",
+												"mostrar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PUT Editar Admin Hotel",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlOGE3YjMyODg3YTBkMjVmYjYwMGIiLCJub21icmUiOiJMdW9pcyBwZXJlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMzE5OCwiZXhwIjoxNjc5NzM3NTk4fQ.BvWpEwBu4ixw2KteI3eURJlHVVBc93wDINcXFmiYg58",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nombre\": \"Luis Perez\",\r\n    \"correo\": \"lperez-2021027@corrreo.com\",\r\n    \"password\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/adminHotel/editar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"adminHotel",
+												"editar"
+											],
+											"query": [
+												{
+													"key": null,
+													"value": "",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Eliminar Admin Hotel",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlOGE3YjMyODg3YTBkMjVmYjYwMGIiLCJub21icmUiOiJMdW9pcyBwZXJlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMzE5OCwiZXhwIjoxNjc5NzM3NTk4fQ.BvWpEwBu4ixw2KteI3eURJlHVVBc93wDINcXFmiYg58",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "localhost:8080/api/adminHotel/eliminar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"adminHotel",
+												"eliminar"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Cliente CRUD Copy",
+							"item": [
+								{
+									"name": "POST Agregar Cliente",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nombre\": \"Pedro Hernandez\",\r\n    \"correo\": \"phernandez@corrreo.com\",\r\n    \"password\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/clientes/agregar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"clientes",
+												"agregar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Mostrar Cliente",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMjQ4NiwiZXhwIjoxNjc5NzM2ODg2fQ.MWjQAs3u3mlHkf1Sbii-Xu-QpYvXDhhMUGkVlFhiruA",
+												"type": "default"
+											}
+										],
+										"url": {
+											"raw": "localhost:8080/api/clientes/mostrar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"clientes",
+												"mostrar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PUT Editar Cliente",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODhlNGE3Njc1ZTAwODc4OTBjMDMiLCJub21icmUiOiJQZWRybyBIZXJuYW5kZXoiLCJjYXJ0IjpbXSwiaWF0IjoxNjc5NzIyNzQyLCJleHAiOjE2Nzk3MzcxNDJ9.ijUxPETlDqvSszGyr9wy4VLPNAYKnuF5pvUEdYcV9OU",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nombre\": \"Josue Ambrosio\",\r\n    \"correo\": \"jambrosio@corrreo.com\",\r\n    \"password\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/clientes/editar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"clientes",
+												"editar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Eliminar Cliente",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODhlNGE3Njc1ZTAwODc4OTBjMDMiLCJub21icmUiOiJQZWRybyBIZXJuYW5kZXoiLCJjYXJ0IjpbXSwiaWF0IjoxNjc5NzIyNzQyLCJleHAiOjE2Nzk3MzcxNDJ9.ijUxPETlDqvSszGyr9wy4VLPNAYKnuF5pvUEdYcV9OU",
+												"type": "default"
+											}
+										],
+										"url": {
+											"raw": "localhost:8080/api/clientes/eliminar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"clientes",
+												"eliminar"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Roles",
+					"item": [
+						{
+							"name": "Roles CRUD",
+							"item": [
+								{
+									"name": "POST Agregar Roles",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMjA4MSwiZXhwIjoxNjc5NzM2NDgxfQ.ZLBG-KUAjl6j7C6tkPN7YGtGqbPcs3JPhQnKiOnW_m0",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"rol\": \"ADMIN_PEPE\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/roles/agregar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"roles",
+												"agregar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Mostrar Roles",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDA2NDFjMzlhZmFjY2E0NTE2NjI3ZGYiLCJub21icmUiOiJTdGV2ZW4gUmFtaXJleiIsImNhcnQiOltdLCJpYXQiOjE2NzgxMzMxNTgsImV4cCI6MTY3ODE0NzU1OH0.vLvNL8JYuSyriW38-K-7k3UzX4iuSL5ntEBrj0D8c3w",
+												"type": "default"
+											}
+										],
+										"url": {
+											"raw": "localhost:8080/api/roles/mostrar",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"roles",
+												"mostrar"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": null,
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PUT Editar Roles",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMjI0MSwiZXhwIjoxNjc5NzM2NjQxfQ.BK-bu2GuvUe4W0RM87gC8ZjLjb9EGZoJS9cLlZDJYgo",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"rol\": \"ADMIN_kiki\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/roles/editar/641e8647f3251766b3b74286",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"roles",
+												"editar",
+												"641e8647f3251766b3b74286"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Eliminar Roles",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwiY2FydCI6W10sImlhdCI6MTY3OTcyMjA4MSwiZXhwIjoxNjc5NzM2NDgxfQ.ZLBG-KUAjl6j7C6tkPN7YGtGqbPcs3JPhQnKiOnW_m0",
+												"type": "default"
+											}
+										],
+										"url": {
+											"raw": "localhost:8080/api/roles/eliminar/641e8647f3251766b3b74286",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"roles",
+												"eliminar",
+												"641e8647f3251766b3b74286"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Logear y creacion de Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"correo\": \"lperez@corrreo.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "x-token",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

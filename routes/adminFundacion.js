@@ -1,18 +1,22 @@
 //Importaciones
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getAdmin, postAdmin, putAdmin, deleteAdmin } = require('../controllers/adminHotel');
-const { emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
+const { getAdminFundacion, getAllAdminsFundaciones, postAdminFundacion, putAdminFundacion, deleteAdminFundacion } = require('../controllers/adminFundacion');
+const { emailExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const {  esAdminHotelRole } = require('../middlewares/validar-roles');
+const { esAdminFundacionRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
 router.get('/mostrar',[
     validarJWT,
-    esAdminHotelRole
-] ,getAdmin);
+    esAdminFundacionRole
+] ,getAdminFundacion);
+
+router.get('/mostrar-all',[
+    validarJWT
+] ,getAllAdminsFundaciones);
 
 router.post('/agregar', [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
@@ -20,20 +24,20 @@ router.post('/agregar', [
     check('correo', 'El correo no es valido').isEmail(),
     check('correo').custom( emailExiste ),
     validarCampos,
-] ,postAdmin);
+] ,postAdminFundacion);
 
 router.put('/editar', [
     validarJWT,
-    esAdminHotelRole,
+    esAdminFundacionRole,
     validarCampos
-] ,putAdmin);
+] ,putAdminFundacion);
 
 
 router.delete('/eliminar', [
     validarJWT,
-    esAdminHotelRole,
+    esAdminFundacionRole,
     validarCampos
-] ,deleteAdmin);
+] ,deleteAdminFundacion);
 
 // ROUTER
 module.exports = router;

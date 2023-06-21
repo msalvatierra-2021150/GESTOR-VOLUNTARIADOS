@@ -23,7 +23,7 @@ La Carpeta de MongoDB maneja colecciones de MongoDB
 La Carpeta De POSTMAN maneja Solicitudes HTTP
 La Carpeta PUBLIC maneja HTML (No Importa por ahora)
 La carpeta ROUTES Maneja RUTAS.
-El nombre de la DB es : gestor_hoteles_g1
+El nombre de la DB es : gestor_voluntariados
 La secret Key es : Est03sMyPubl1cK3y2o23 
 El puerto del servidor es: 8080
 

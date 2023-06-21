@@ -13,9 +13,10 @@ class Server {
         this.paths = {
             auth:    '/api/auth',
             adminApp:   '/api/admin',
-            cliente: '/api/clientes',
-            roles: '/api/roles',
-            adminHotel:   '/api/adminHotel',
+            voluntario: '/api/voluntario',
+            adminFundacion:   '/api/adminFundacion',
+            voluntario:   '/api/voluntario',
+            voluntariados: '/api/voluntariados'
         }
 
 
@@ -53,9 +54,10 @@ class Server {
     routes() {
         this.app.use(this.paths.auth , require('../routes/auth'));
         this.app.use(this.paths.adminApp, require('../routes/admin'));
-        this.app.use(this.paths.cliente, require('../routes/cliente')); 
-        this.app.use(this.paths.roles, require('../routes/role')); 
-        this.app.use(this.paths.adminHotel, require('../routes/adminHotel'));
+        this.app.use(this.paths.voluntario, require('../routes/voluntario')); 
+        this.app.use(this.paths.adminFundacion, require('../routes/adminFundacion'));
+        this.app.use(this.paths.voluntario, require('../routes/voluntario'));
+        this.app.use(this.paths.voluntariados, require('../routes/voluntariados'));
     }
 
 

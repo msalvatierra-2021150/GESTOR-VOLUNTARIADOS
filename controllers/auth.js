@@ -2,45 +2,47 @@ const { request, response } = require('express');
 const bcrypt = require('bcryptjs');
 
 const { generarJWT } = require('../helpers/generar-jwt');
-const Usuario = require('../models/usuario');
+const Admin = require('../models/adminApp');
+const Fundacion  = require('../models/adminFundacion');
+const Voluntario = require('../models/voluntario');
+
 
 const login = async (req = request, res = response) => {
-
     const { correo, password } = req.body;
-
     try {
-
-        //Verficiar si el email existe
-        const usuario = await Usuario.findOne({ correo });
-        if ( !usuario ) {
-            return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - (El correo no existe jaja)'
-            });
-        }
-
-        //Si el usuario esta activo (estado = false)
-        if ( !usuario.estado ) {
-            return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - estado: false'
-            });
+        const models = [Admin, Fundacion, Voluntario]; // Arreglo de modelos
+        // Verificar si es Admin App, si no busca en fundacion, si no en voluntario
+        let usuario = null;
+        for (const model of models) {
+            usuario = await model.findOne({ correo: correo });
+            if (usuario) {
+                break;
+            }
         }
         
-        //Verificar la password
-        const validarPassword = bcrypt.compareSync( password, usuario.password );
-        if ( !validarPassword ) {
+        if (!usuario) {
+            return res.status(400).json({
+                msg: 'Usuario / Password no son correctos - (Usuario no registrado correo)'
+            });
+        }
+
+        const validarPassword = bcrypt.compareSync(password, usuario.password);
+        if (!validarPassword) {
             return res.status(400).json({
                 msg: 'Usuario / Password no son correctos - (password incorrecta)'
             });
         }
 
-        //Generar JWT
-        const token = await generarJWT( usuario.id, usuario.nombre, usuario.cart );
-        
-        res.json({
+        // Generate JWT
+        const token = await generarJWT(usuario.id, usuario.nombre, usuario.rol);
+
+
+        return res.json({
             msg: 'Login PATH',
-            correo, password,
+            correo,
+            password,
             token
-        })
+        });
 
     } catch (error) {
         console.log(error);
@@ -48,12 +50,8 @@ const login = async (req = request, res = response) => {
             msg: 'Hable con el administrador (BackEnd)'
         });
     }
-
-
-
-}
-
+};
 
 module.exports = {
     login
-}
+};

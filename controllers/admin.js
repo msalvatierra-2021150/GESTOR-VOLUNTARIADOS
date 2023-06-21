@@ -1,19 +1,23 @@
 const { response, request } = require('express');
 const bcrypt = require('bcryptjs');
 //Importación del modelo
-const Usuario = require('../models/usuario');
+const adminApp = require('../models/adminApp');
 
 const getAdmin = async (req = request, res = response) => {
-    //condiciones del get
-    const query = {_id: req.usuario.id};
+    try{
+        const { id } = req.usuario;
 
-    const listaUsuarios = await Usuario.findById(query);
+        const adminapp = await adminApp.findById(id);
 
         return res.json({
-            msg: 'get Api - Controlador Usuario',
-            Usuario,
-            listaUsuarios
+            msg: 'get Api - Controlador Admin',
+            adminapp
         });
+    } catch (error) {
+
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
 }
 
 const postAdmin = async (req = request, res = response) => {
@@ -21,18 +25,18 @@ const postAdmin = async (req = request, res = response) => {
     const { nombre, correo, password} = req.body;
     const rol = req.body.rol || 'ADMIN_APP';
 
-    const usuarioGuardadoDB = new Usuario({ nombre, correo, password, rol });
+    const adminAppGuardadoDB = new adminApp({ nombre, correo, password, rol });
 
     //Encriptar password
     const salt = bcrypt.genSaltSync();
-    usuarioGuardadoDB.password = bcrypt.hashSync(password, salt);
+    adminAppGuardadoDB.password = bcrypt.hashSync(password, salt);
 
     //Guardar en BD
-    await usuarioGuardadoDB.save();
+    await adminAppGuardadoDB.save();
 
     res.json({
-        msg: 'Post Api - Post Usuario',
-        usuarioGuardadoDB
+        msg: 'Post Api - Post Admin',
+        adminAppGuardadoDB
     });
 
 }
@@ -51,10 +55,10 @@ const putAdmin = async (req = request, res = response) => {
         resto.password = bcrypt.hashSync(resto.password, salt);
     }
 
-        const usuarioEditado = await Usuario.findByIdAndUpdate(id, resto);
+        const adminAppEditado = await adminApp.findByIdAndUpdate(id, resto);
         return res.json({
-            msg: 'PUT editar user',
-            usuarioEditado
+            msg: 'PUT editar Admin',
+            usuarioEditado: adminAppEditado
         });
 }
 
@@ -63,11 +67,11 @@ const deleteAdmin = async(req = request, res = response) => {
     const { id } = req.usuario;
 
     //Eliminar cambiando el estado a false
-    const usuarioEliminado = await Usuario.findByIdAndDelete(id);
+    const adminAppEliminado = await adminApp.findByIdAndDelete(id);
 
     return res.json({
-        msg: 'DELETE eliminar user',
-        usuarioEliminado
+        msg: 'DELETE eliminar AdminApp',
+        adminAppEliminado
     });
 }
 

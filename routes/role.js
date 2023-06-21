@@ -12,10 +12,10 @@ const { getRoles, postRoles, putRoles, deleteRoles } = require('../controllers/r
 const router = Router();
 //Manejo de rutas
 
-// Obtener todas las categorias - publico
+// Obtener todas los roles - publico
 router.get('/mostrar', getRoles );
 
-// Crear categoria - privada - cualquier persona con un token válido
+// Crea rol - privada - cualquier persona con un token válido
 router.post('/agregar', [
     validarJWT,
     esAdminAppRole ,
@@ -24,7 +24,7 @@ router.post('/agregar', [
     validarCampos
 ] ,postRoles);
 
-// Actuaizar categoria - privada - cualquier persona con un token válido
+// Actuaizar rol - privada - cualquier persona con un token válido
 router.put('/editar/:id', [
     validarJWT,
     esAdminAppRole ,
@@ -34,7 +34,7 @@ router.put('/editar/:id', [
     validarCampos
 ] ,putRoles);
 
-//Borrar una categoria - privado - Solo el admin puede eliminar una categoria (estado: false)
+//Borrar un rol - privado - Solo el admin puede eliminar una categoria (estado: false)
 router.delete('/eliminar/:id', [
     validarJWT,
     esAdminAppRole ,
@@ -42,7 +42,5 @@ router.delete('/eliminar/:id', [
     check('id').custom( existeRolPorId ),
     validarCampos
 ] ,deleteRoles);
-
-
 
 module.exports = router;

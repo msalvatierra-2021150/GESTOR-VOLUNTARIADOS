@@ -1,18 +1,23 @@
 //Importaciones
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getUsuarios, postUsuario, putUsuario, deleteUsuario } = require('../controllers/cliente');
-const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
+const { getAdminFundacion, getAllAdminsFundaciones, postAdminFundacion, putAdminFundacion, deleteAdminFundacion } = require('../controllers/adminFundacion');
+const { emailExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { tieneRole, NoEsAdminRole } = require('../middlewares/validar-roles');
+const { esAdminFundacionRole, esAdminAppRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
-router.get('/mostrar', [
+router.get('/mostrar',[
     validarJWT,
-    NoEsAdminRole
-],getUsuarios);
+    esAdminFundacionRole
+] ,getAdminFundacion);
+
+router.get('/mostrar-all',[
+    validarJWT,
+    esAdminAppRole
+] ,getAllAdminsFundaciones);
 
 router.post('/agregar', [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
@@ -20,23 +25,20 @@ router.post('/agregar', [
     check('correo', 'El correo no es valido').isEmail(),
     check('correo').custom( emailExiste ),
     validarCampos,
-] ,postUsuario);
+] ,postAdminFundacion);
 
 router.put('/editar', [
     validarJWT,
-    NoEsAdminRole,
+    esAdminFundacionRole,
     validarCampos
-] ,putUsuario);
+] ,putAdminFundacion);
 
 
 router.delete('/eliminar', [
     validarJWT,
-    NoEsAdminRole,
+    esAdminFundacionRole,
     validarCampos
-] ,deleteUsuario);
+] ,deleteAdminFundacion);
 
-
+// ROUTER
 module.exports = router;
-
-
-// ROUTES

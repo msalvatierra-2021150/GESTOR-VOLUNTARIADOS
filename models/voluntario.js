@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const UsuarioSchema = Schema({
+const VoluntarioSchema = Schema({
     nombre: {
         type: String,
         required: [true, 'El nombre es obligatorio']
@@ -14,26 +14,15 @@ const UsuarioSchema = Schema({
         type: String,
         required: [true, 'El password es obligatorio' ]
     },
-    img: {
-        type: String
-    },
     rol: {
         type: String,
         required: true
     },
-    estado: {
-        type: Boolean,
-        default: true
-    },
-    google: {
-        type: Boolean,
-        default: false
-    }, 
-    cart: {
+    array_img: {
         type: Array,
         default: []
     }
 });
 
 
-module.exports = model('Usuario', UsuarioSchema);
+module.exports = model('Voluntario', VoluntarioSchema);

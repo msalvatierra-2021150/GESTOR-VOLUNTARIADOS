@@ -1,26 +1,20 @@
-const Role = require('../models/role');
-const Usuario = require('../models/usuario');
-
-
+const Admin = require('../models/adminApp');
+const Fundacion  = require('../models/adminFundacion');
+const Voluntario = require('../models/voluntario');
+const Convocatoria = require('../models/convocatoria');
 //Este archivo maneja validaciones personalizadas
 
-const esRoleValido = async( rol = '' ) => {
-
-    const existeRol = await Role.findOne( { rol } );
-
-    if ( !existeRol ) {
-        throw new Error(`El rol ${ rol } no está registrado en la DB`);
+const emailExiste = async( correo = '' ) => {
+    const models = [Admin, Fundacion, Voluntario]; // Arreglo de modelos
+    // Verificar si es Admin App, si no busca en fundacion, si no en voluntario
+    let existeEmail = null;
+    for (const model of models) {
+        existeEmail = await model.findOne({ correo });
+        if (existeEmail) {
+            break;
+        }
     }
 
-}
-
-
-const emailExiste = async( correo = '' ) => {
-
-    //Verificamos si el correo ya existe en la DB
-    const existeEmail = await Usuario.findOne( { correo } );
-
-    //Si existe (es true) lanzamos excepción
     if ( existeEmail ) {
         throw new Error(`El correo: ${ correo } ya existe y esta registrado en la DB`);
     }
@@ -29,40 +23,30 @@ const emailExiste = async( correo = '' ) => {
 
 
 const existeUsuarioPorId = async(id) => {
-
-    //Verificar si el ID existe
-    const existeUser = await Usuario.findById(id);
-
-    if ( !existeUser ) {
-        throw new Error(`El id ${ id } no existe en la DB`);
+    const models = [Admin, Fundacion, Voluntario]; // Arreglo de modelos
+    // Verificar si el usuario existe.
+    let existeUser = null;
+    for (const model of models) {
+        existeUser = await model.findById(id);
+        if (existeUser) {
+            break;
+        }
     }
-
-}
-
-const existeRol = async(rol) => {
-
-    //Verificar si el ID existe
-    const existeRol = await Role.findOne({rol: rol});
-
-    if ( existeRol ) {
-        throw new Error(`El rol ${ rol } ya existe en la DB`);
+    
+    if (!existeUser) {
+        throw new Error(`El id ${id} no existe en la DB`);
     }
 }
 
-const existeRolPorId = async(id) => {
-    //Verificar si el ID existe
-    const existeRol = await Role.findOne({id: id});
-
-    if ( existeRol ) {
-        throw new Error(`El rol ${ id } ya existe en la DB`);
-    }
+//Verificador si la convocatoria es de la fundacion que esta intentado acceder
+const esConvocatoriaDeLaFundacion = async (id) => {
+    const convocatoria = await Convocatoria.findById(id);
+    if (convocatoria.fundacion.toString() !== id) return false;
+    return true;
 }
-
 
 module.exports = {
-    esRoleValido,
     emailExiste,
     existeUsuarioPorId,
-    existeRol,
-    existeRolPorId
+    esConvocatoriaDeLaFundacion
 }

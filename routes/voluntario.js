@@ -1,18 +1,18 @@
 //Importaciones
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getAdmin, postAdmin, putAdmin, deleteAdmin } = require('../controllers/adminHotel');
-const { emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
+const { getVoluntarios, postVoluntario, putVoluntario, deleteVoluntario } = require('../controllers/voluntario');
+const { emailExiste} = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const {  esAdminHotelRole } = require('../middlewares/validar-roles');
+const { NoEsAdminRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
-router.get('/mostrar',[
+router.get('/mostrar', [
     validarJWT,
-    esAdminHotelRole
-] ,getAdmin);
+    NoEsAdminRole
+],getVoluntarios);
 
 router.post('/agregar', [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
@@ -20,20 +20,20 @@ router.post('/agregar', [
     check('correo', 'El correo no es valido').isEmail(),
     check('correo').custom( emailExiste ),
     validarCampos,
-] ,postAdmin);
+] ,postVoluntario);
 
 router.put('/editar', [
     validarJWT,
-    esAdminHotelRole,
+    NoEsAdminRole,
     validarCampos
-] ,putAdmin);
+] ,putVoluntario);
 
 
 router.delete('/eliminar', [
     validarJWT,
-    esAdminHotelRole,
+    NoEsAdminRole,
     validarCampos
-] ,deleteAdmin);
+] ,deleteVoluntario);
 
-// ROUTER
+
 module.exports = router;

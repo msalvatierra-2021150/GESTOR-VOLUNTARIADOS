@@ -21,7 +21,7 @@ const esAdminAppRole = (req = request, res = response, next) => {
     next();
 }
 
-const esAdminHotelRole = (req = request, res = response, next) => {
+const esAdminFundacionRole = (req = request, res = response, next) => {
     //Si no viene el usuario
     if ( !req.usuario ) {
         return res.status(500).json({
@@ -32,16 +32,16 @@ const esAdminHotelRole = (req = request, res = response, next) => {
     //Verificar que le rol sea ADMIN_ROLE
     const { rol, nombre } = req.usuario;
 
-    if ( rol !== 'ADMIN_HOTEL' ) {
+    if ( rol !== 'ADMIN_FUNDACION' ) {
         return res.status(500).json({
-            msg: `${ nombre } no es Administrador del Hotel - No tiene acceso a esta función`
+            msg: `${ nombre } no es Administrador de la fundacion - No tiene acceso a esta función`
         });
     }
 
     next();
 }
 
-const esUsuarioRole = (req = request, res = response, next) => {
+const esVoluntarioRole = (req = request, res = response, next) => {
     //Si no viene el usuario
     if ( !req.usuario ) {
         return res.status(500).json({
@@ -49,12 +49,12 @@ const esUsuarioRole = (req = request, res = response, next) => {
         });
     }
 
-    //Verificar que le rol sea ADMIN_ROLE
+    //Verificar que le rol sea usuario
     const { rol, nombre } = req.usuario;
 
-    if ( rol !== 'ADMIN_HOTEL' ) {
+    if ( rol !== 'VOLUNTARIO_ROLE' ) {
         return res.status(500).json({
-            msg: `${ nombre } no es Administrador del Hotel - No tiene acceso a esta función`
+            msg: `${ nombre } no es un voluntario - No tiene acceso a esta función`
         });
     }
 
@@ -74,7 +74,7 @@ const NoEsAdminRole = (req = request, res = response, next) => {
     //Verificar que le rol sea ADMIN_ROLE
     const { rol, nombre } = req.usuario;
 
-    if ( rol == 'ADMIN_ROLE' ) {
+    if ( rol !== 'ADMIN_APP' ||  rol !== 'ADMIN_FUNDACION') {
         return res.status(500).json({
             msg: `${ nombre } es Administrador - No tiene acceso a esta función`
         });
@@ -114,7 +114,7 @@ const tieneRole = ( ...roles ) => {
 module.exports = {
     tieneRole,
     esAdminAppRole,
-    esAdminHotelRole,
-    esUsuarioRole,
+    esAdminFundacionRole,
+    esVoluntarioRole,
     NoEsAdminRole
 }

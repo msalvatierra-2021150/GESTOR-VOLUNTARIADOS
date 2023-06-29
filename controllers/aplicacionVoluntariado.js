@@ -3,7 +3,7 @@ const { response, request } = require('express');
 const Convocatoria = require('../models/convocatoria');
 const AplicacionVoluntariado = require('../models/aplicacionVoluntariado');
 const ContadoresConvocatoria = require('../models/contadoresConvocatoria');
-//const VoluntariadoActivo = require('../models/voluntariadoActivo');
+const VoluntariadoActivo = require('../models/voluntariados');
 
 //Fundacion
 const getAplicaciones = async (req = request, res = response) => {
@@ -12,6 +12,19 @@ const getAplicaciones = async (req = request, res = response) => {
         const query = { convocatoria: id };
         const aplicaciones = await AplicacionVoluntariado.find(query);
         return res.json({ aplicaciones });
+    } catch (error) {
+        res.status(500).json({ msg: error });
+    }
+}
+
+//Admin
+const getAplicacionesId = async (req = request, res = response) => {
+    try {
+        const id = req.params.id;
+        const aplicacion = await AplicacionVoluntariado.findById(id)
+        .populate('voluntario', 'nombre correo telefono')
+        .populate('convocatoria', 'titulo lugar');
+        return res.json({ aplicacion });
     } catch (error) {
         res.status(500).json({ msg: error });
     }
@@ -58,8 +71,8 @@ const postAplicacion = async (req = request, res = response) => {
         const contador = await ContadoresConvocatoria.findOne({ convocatoria: req.params.id });
         if (!contador) return res.status(404).json({ msg: 'No existe el contador de la convocatoria' });
         //Modificar el contador de la convocatoria
-        await ContadoresConvocatoria.findByIdAndUpdate(contador.id, { 
-            $inc: { aplicaciones_recibidas: 1, aplicaciones_pendientes: 1 } 
+        await ContadoresConvocatoria.findByIdAndUpdate(contador.id, {
+            $inc: { aplicaciones_recibidas: 1, aplicaciones_pendientes: 1 }
         });
         //Crear la aplicacion
         const aplicacionVoluntariado = new AplicacionVoluntariado(body);
@@ -80,7 +93,7 @@ const deleteAplicacion = async (req = request, res = response) => {
         //Validar que el usuario sea el dueño de la aplicacion
         if (aplicacion.voluntario.toString() !== req.usuario.id) return res.status(401).json({ msg: 'No tiene permisos para eliminar esta aplicacion' });
         //Validar que la aplicacion no este aceptada
-        if (aplicacion.estado === 'aceptado') return res.status(400).json({ msg: 'No puede eliminar una aplicacion aceptada' });
+        if (aplicacion.estado === 'Aceptado') return res.status(400).json({ msg: 'No puede eliminar una aplicacion aceptada' });
         //Validar que exista el contador de la convocatoria
         const contador = await ContadoresConvocatoria.findOne({ convocatoria: aplicacion.convocatoria });
         if (!contador) return res.status(404).json({ msg: 'No existe el contador de la convocatoria' });
@@ -111,10 +124,17 @@ const aceptarAplicacion = async (req = request, res = response) => {
         //Modificar la aplicacion
         await AplicacionVoluntariado.findByIdAndUpdate(id, { estado: 'Aceptado' });
         //Crear un nuevo registro en voluntariados_activos
-        //const voluntariadoActivo = new VoluntariadoActivo({ voluntario: aplicacion.voluntario, convocatoria: aplicacion.convocatoria });
-        //await voluntariadoActivo.save();
+        const voluntariadoActivo = new VoluntariadoActivo({ 
+            voluntario: aplicacion.voluntario, 
+            convocatoria_voluntariado: aplicacion.convocatoria, 
+            fechaHoraInicio: Date.now(), 
+            fechaHoraFin: null 
+        });
+        await voluntariadoActivo.save();
         //Disminuir el cupo de la convocatoria
-        await Convocatoria.findByIdAndUpdate(aplicacion.convocatoria, { $inc: { cupo: -1 } });
+        const convo = await Convocatoria.findByIdAndUpdate(aplicacion.convocatoria, { $inc: { cupo: -1 } });
+        //Cambiar el estado de la convocatoria a false si el cupo es 0
+        if (convo.cupo === 1) await Convocatoria.findByIdAndUpdate(aplicacion.convocatoria, { estado: false });
         return res.json({ msg: 'Acepto la aplicación correctamente' });
     } catch (error) {
         res.status(500).json({ msg: error });
@@ -145,6 +165,7 @@ module.exports = {
     getAplicaciones,
     getAplicacionesVoluntario,
     getAllAplicaciones,
+    getAplicacionesId,
     postAplicacion,
     deleteAplicacion,
     aceptarAplicacion,

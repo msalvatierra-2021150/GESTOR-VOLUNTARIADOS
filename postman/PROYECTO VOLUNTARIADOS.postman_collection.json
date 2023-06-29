@@ -332,7 +332,7 @@
 								"header": [
 									{
 										"key": "x-token",
-										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhmNzI2YmQwMTI2OTlmMDhjZTJlYTQiLCJub21icmUiOiJGdW5kYWNpw7NuIEtpbmFsIiwicm9sIjoiQURNSU5fRlVOREFDSU9OIiwiaWF0IjoxNjg3MTIzMjE2LCJleHAiOjE2ODcxMzc2MTZ9.ZKaKbTpsZmZBGv7-bDOPUvAEzBW-ACgnxw0ozBSsjKE",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDkzNGM1NmYxMjAyYmNiYzk2NjJhMjgiLCJub21icmUiOiJUZWxldMOzbiIsInJvbCI6IkFETUlOX0ZVTkRBQ0lPTiIsImlhdCI6MTY4NzM3NTA3NiwiZXhwIjoxNjg3Mzg5NDc2fQ.pb0tEZMLoRs-ntcuLXuCS0fPzdjIbjsNLN5d_WjImWc",
 										"type": "default"
 									}
 								],
@@ -367,7 +367,7 @@
 								"header": [
 									{
 										"key": "x-token",
-										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhjZDkzYTlhMTE4ZjE5N2Y4MTZjMjciLCJub21icmUiOiJUZWxldMOzbiIsInJvbCI6IkFETUlOX0ZVTkRBQ0lPTiIsImlhdCI6MTY4Njk1MjU5MiwiZXhwIjoxNjg2OTY2OTkyfQ.BKI6McOFa2VyvzMe9sOusL6vaCjzTEXO3557xgEp1XU",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDkzNGM1NmYxMjAyYmNiYzk2NjJhMjgiLCJub21icmUiOiJUZWxldMOzbiIsInJvbCI6IkFETUlOX0ZVTkRBQ0lPTiIsImlhdCI6MTY4NzM3NTA3NiwiZXhwIjoxNjg3Mzg5NDc2fQ.pb0tEZMLoRs-ntcuLXuCS0fPzdjIbjsNLN5d_WjImWc",
 										"type": "default"
 									}
 								],
@@ -430,6 +430,44 @@
 							"response": []
 						},
 						{
+							"name": "GET mostrar convocatorias cerradas",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhjZDkyZTlhMTE4ZjE5N2Y4MTZjMjIiLCJub21icmUiOiJGdW5kYWNpw7NuIEtpbmFsIiwicm9sIjoiQURNSU5fRlVOREFDSU9OIiwiaWF0IjoxNjg3NTU2ODUwLCJleHAiOjE2ODc1NzEyNTB9.exr1MmP9r_o8p84K2f-NrQwJivozbaz4FUPCEHQO0xo",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/convocatoria/mostrar-cerradas",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"convocatoria",
+										"mostrar-cerradas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "GET todas las convocatorias",
 							"request": {
 								"method": "GET",
@@ -456,13 +494,34 @@
 							"response": []
 						},
 						{
+							"name": "GET filtrar segun departamento",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/convocatoria/mostrar-lugar/ti",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"convocatoria",
+										"mostrar-lugar",
+										"ti"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST agregar convocatoria",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "x-token",
-										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhmNzI2YmQwMTI2OTlmMDhjZTJlYTQiLCJub21icmUiOiJVbmljZWYiLCJyb2wiOiJBRE1JTl9GVU5EQUNJT04iLCJpYXQiOjE2ODcxMjM0NzgsImV4cCI6MTY4NzEzNzg3OH0.EDRBTBQyHBXW6YIJ4-ySDF7NnNw1rxBHrn2-eqbCJP8",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhjZDkyZTlhMTE4ZjE5N2Y4MTZjMjIiLCJub21icmUiOiJGdW5kYWNpw7NuIEtpbmFsIiwicm9sIjoiQURNSU5fRlVOREFDSU9OIiwiaWF0IjoxNjg3NTU2ODUwLCJleHAiOjE2ODc1NzEyNTB9.exr1MmP9r_o8p84K2f-NrQwJivozbaz4FUPCEHQO0xo",
 										"type": "text"
 									}
 								],
@@ -497,7 +556,7 @@
 								"header": [
 									{
 										"key": "x-token",
-										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhmNzI2YmQwMTI2OTlmMDhjZTJlYTQiLCJub21icmUiOiJVbmljZWYiLCJyb2wiOiJBRE1JTl9GVU5EQUNJT04iLCJpYXQiOjE2ODcxMjM0NzgsImV4cCI6MTY4NzEzNzg3OH0.EDRBTBQyHBXW6YIJ4-ySDF7NnNw1rxBHrn2-eqbCJP8",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhjZDkyZTlhMTE4ZjE5N2Y4MTZjMjIiLCJub21icmUiOiJGdW5kYWNpw7NuIEtpbmFsIiwicm9sIjoiQURNSU5fRlVOREFDSU9OIiwiaWF0IjoxNjg3Mzc1MTc5LCJleHAiOjE2ODczODk1Nzl9.eW4PqnUuBaeauR82K2o91G-StV1i3ZOfRS26LAkPF2M",
 										"type": "default"
 									}
 								],
@@ -525,7 +584,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "648f7693d012699f08ce2eae"
+											"value": "64934d59f1202bcbc9662a3b"
 										}
 									]
 								}
@@ -539,7 +598,7 @@
 								"header": [
 									{
 										"key": "x-token",
-										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhmNzI2YmQwMTI2OTlmMDhjZTJlYTQiLCJub21icmUiOiJVbmljZWYiLCJyb2wiOiJBRE1JTl9GVU5EQUNJT04iLCJpYXQiOjE2ODcxMjM0NzgsImV4cCI6MTY4NzEzNzg3OH0.EDRBTBQyHBXW6YIJ4-ySDF7NnNw1rxBHrn2-eqbCJP8",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhjZDkyZTlhMTE4ZjE5N2Y4MTZjMjIiLCJub21icmUiOiJGdW5kYWNpw7NuIEtpbmFsIiwicm9sIjoiQURNSU5fRlVOREFDSU9OIiwiaWF0IjoxNjg3Mzc1MTc5LCJleHAiOjE2ODczODk1Nzl9.eW4PqnUuBaeauR82K2o91G-StV1i3ZOfRS26LAkPF2M",
 										"type": "default"
 									}
 								],
@@ -558,7 +617,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "648f7693d012699f08ce2eae"
+											"value": "64934ff92990c0ab608f7c7b"
 										}
 									]
 								}
@@ -577,9 +636,15 @@
 									"name": "GET all aplicaciones",
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "x-token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDhjZDkyZTlhMTE4ZjE5N2Y4MTZjMjIiLCJub21icmUiOiJGdW5kYWNpw7NuIEtpbmFsIiwicm9sIjoiQURNSU5fRlVOREFDSU9OIiwiaWF0IjoxNjg3Mzc2MTAzLCJleHAiOjE2ODczOTA1MDN9.o7ygjnJnYM1mrw3uF8UHZ5Ah8L0okz7JVKkz0Tk92Ec",
+												"type": "text"
+											}
+										],
 										"url": {
-											"raw": "localhost:8080/api/aplicacionVoluntariado/mostrar/648f763542a2a45106be43b8",
+											"raw": "localhost:8080/api/aplicacionVoluntariado/mostrar/6493503b2990c0ab608f7c87",
 											"host": [
 												"localhost"
 											],
@@ -588,7 +653,7 @@
 												"api",
 												"aplicacionVoluntariado",
 												"mostrar",
-												"648f763542a2a45106be43b8"
+												"6493503b2990c0ab608f7c87"
 											]
 										}
 									},
@@ -614,7 +679,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "649333191aa8f8018e4ebb89"
+													"value": "64962e7ea145a3e0a7970c1f"
 												}
 											]
 										}
@@ -641,7 +706,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "6493337e8365e04f80bf6f85"
+													"value": "649351437318b7bf067e62dd"
 												}
 											]
 										}
@@ -660,7 +725,7 @@
 										"header": [
 											{
 												"key": "x-token",
-												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwicm9sIjoiVk9MVU5UQVJJT19ST0xFIiwiaWF0IjoxNjg3MzY3OTI2LCJleHAiOjE2ODczODIzMjZ9.jhJgtv_93MzsRQjNstQfPTKzEY6F7UctzWuUWrNlwdE",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwicm9sIjoiVk9MVU5UQVJJT19ST0xFIiwiaWF0IjoxNjg3Mzc1OTU1LCJleHAiOjE2ODczOTAzNTV9.eku0Pj8qvLNTOkhLd5BOm9q-aJci0B6LThr02fPpO-M",
 												"type": "text"
 											}
 										],
@@ -686,7 +751,7 @@
 										"header": [
 											{
 												"key": "x-token",
-												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwicm9sIjoiVk9MVU5UQVJJT19ST0xFIiwiaWF0IjoxNjg3MzY3OTI2LCJleHAiOjE2ODczODIzMjZ9.jhJgtv_93MzsRQjNstQfPTKzEY6F7UctzWuUWrNlwdE",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwicm9sIjoiVk9MVU5UQVJJT19ST0xFIiwiaWF0IjoxNjg3NTYzNjMwLCJleHAiOjE2ODc1NzgwMzB9.JWwNDmUApCyoz5pt1HkHbSOkfmKJ2DaEBFCcZ73eEWg",
 												"type": "text"
 											}
 										],
@@ -705,7 +770,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "648f763542a2a45106be43b8"
+													"value": "649614042d0ac170e63e8c91"
 												}
 											]
 										}
@@ -719,7 +784,7 @@
 										"header": [
 											{
 												"key": "x-token",
-												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwicm9sIjoiVk9MVU5UQVJJT19ST0xFIiwiaWF0IjoxNjg3MzY3OTI2LCJleHAiOjE2ODczODIzMjZ9.jhJgtv_93MzsRQjNstQfPTKzEY6F7UctzWuUWrNlwdE",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJTdGV2ZW4gUGVuYXRlIiwicm9sIjoiVk9MVU5UQVJJT19ST0xFIiwiaWF0IjoxNjg3Mzc1OTU1LCJleHAiOjE2ODczOTAzNTV9.eku0Pj8qvLNTOkhLd5BOm9q-aJci0B6LThr02fPpO-M",
 												"type": "text"
 											}
 										],
@@ -738,7 +803,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "649331fd29579752ea96f5f7"
+													"value": "649350692990c0ab608f7c96"
 												}
 											]
 										}
@@ -768,6 +833,170 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Buscadores",
+					"item": [
+						{
+							"name": "Buscador voluntario",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJhZG1pbiIsInJvbCI6IkFETUlOX0FQUCIsImlhdCI6MTY4Nzk5MDcwMCwiZXhwIjoxNjg4MDA1MTAwfQ.ncsi9N5ACjb0LnfxfCZ0QxnJQfBYqU6mb2RV-U3Xr34",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/voluntario/buscar/:nombre",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"voluntario",
+										"buscar",
+										":nombre"
+									],
+									"variable": [
+										{
+											"key": "nombre",
+											"value": "steven"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscador fundaciones",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJhZG1pbiIsInJvbCI6IkFETUlOX0FQUCIsImlhdCI6MTY4Nzk5MDcwMCwiZXhwIjoxNjg4MDA1MTAwfQ.ncsi9N5ACjb0LnfxfCZ0QxnJQfBYqU6mb2RV-U3Xr34",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/adminFundacion/buscar/:nombre",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"adminFundacion",
+										"buscar",
+										":nombre"
+									],
+									"variable": [
+										{
+											"key": "nombre",
+											"value": "k"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscador convocatorias",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJhZG1pbiIsInJvbCI6IkFETUlOX0FQUCIsImlhdCI6MTY4Nzk5MDcwMCwiZXhwIjoxNjg4MDA1MTAwfQ.ncsi9N5ACjb0LnfxfCZ0QxnJQfBYqU6mb2RV-U3Xr34",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/convocatoria/buscar/:nombre",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"convocatoria",
+										"buscar",
+										":nombre"
+									],
+									"variable": [
+										{
+											"key": "nombre",
+											"value": "viveres"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscador convocatorias (departamento)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJhZG1pbiIsInJvbCI6IkFETUlOX0FQUCIsImlhdCI6MTY4Nzk5MDcwMCwiZXhwIjoxNjg4MDA1MTAwfQ.ncsi9N5ACjb0LnfxfCZ0QxnJQfBYqU6mb2RV-U3Xr34",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/convocatoria/mostrar-lugar/ti",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"convocatoria",
+										"mostrar-lugar",
+										"ti"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscador aplicaciones",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDFlODYzMWYzMjUxNzY2YjNiNzQyODEiLCJub21icmUiOiJhZG1pbiIsInJvbCI6IkFETUlOX0FQUCIsImlhdCI6MTY4Nzk5MDcwMCwiZXhwIjoxNjg4MDA1MTAwfQ.ncsi9N5ACjb0LnfxfCZ0QxnJQfBYqU6mb2RV-U3Xr34",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/aplicacionVoluntariado/buscar/:id",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"aplicacionVoluntariado",
+										"buscar",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "64962e7ea145a3e0a7970c1f"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
@@ -778,7 +1007,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"correo\": \"msalvatierra@corrreo.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"raw": "{\r\n    \"correo\": \"admin@corrreo.com\",\r\n    \"password\": \"123456\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

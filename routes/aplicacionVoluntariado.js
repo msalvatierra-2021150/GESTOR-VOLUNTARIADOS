@@ -1,13 +1,20 @@
 //Importaciones
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getAplicaciones, getAllAplicaciones, getAplicacionesVoluntario,postAplicacion, deleteAplicacion, aceptarAplicacion, rechazarAplicacion } = require('../controllers/aplicacionVoluntariado');
-const { emailExiste} = require('../helpers/db-validators');
+const { getAplicaciones, getAplicacionesId, getAllAplicaciones, getAplicacionesVoluntario, postAplicacion, deleteAplicacion, aceptarAplicacion, rechazarAplicacion } = require('../controllers/aplicacionVoluntariado');
+const { emailExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { esAdminFundacionRole, esVoluntarioRole, esAdminAppRole } = require('../middlewares/validar-roles');
 
 const router = Router();
+
+//Obtener una aplicacion por id
+router.get('/buscar/:id', [
+    validarJWT,
+    esAdminAppRole,
+    validarCampos
+], getAplicacionesId);
 
 //Obtener todas las aplicaciones de una convocatoria publicada por una fundación
 router.get('/mostrar/:id', [
@@ -46,8 +53,8 @@ router.delete('/eliminar/:id', [
 
 //Aceptar una aplicacion a una convocatoria
 router.put('/aceptar/:id', [
-  //  validarJWT,
-  //  esAdminFundacionRole,
+    //  validarJWT,
+    //  esAdminFundacionRole,
     validarCampos
 ], aceptarAplicacion);
 

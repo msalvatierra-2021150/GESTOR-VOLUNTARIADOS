@@ -24,4 +24,5 @@ const adminAppSchema = Schema({
     }
 });
 
+
 module.exports = model('AdminApp', adminAppSchema);

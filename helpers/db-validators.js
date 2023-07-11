@@ -2,7 +2,23 @@ const Admin = require('../models/adminApp');
 const Fundacion  = require('../models/adminFundacion');
 const Voluntario = require('../models/voluntario');
 const Convocatoria = require('../models/convocatoria');
-//Este archivo maneja validaciones personalizadas
+//Este archivo maneja validaciones 
+const { json } = require('express');
+const UIploadModel = require('../models/voluntario');
+
+const emailExistente = async( correo = '' ) => {
+    console.log("SE ENTRO");
+    //Verificamos si el correo ya existe en la DB
+    const existeEmail = await UIploadModel.findOne( { correo } );
+    console.log(existeEmail);
+    //Si existe (es true) lanzamos excepción
+    if ( existeEmail ) {
+        return  res.status(400).json({
+                 msg: 'Usuario / Password no son correctos - (El correo no existe jaja)'
+         });
+    }
+
+}
 
 const emailExiste = async( correo = '' ) => {
     const models = [Admin, Fundacion, Voluntario]; // Arreglo de modelos
@@ -39,14 +55,15 @@ const existeUsuarioPorId = async(id) => {
 }
 
 //Verificador si la convocatoria es de la fundacion que esta intentado acceder
-const esConvocatoriaDeLaFundacion = async (id) => {
+const esConvocatoriaDeLaFundacion = async (id, idFundacion) => {
     const convocatoria = await Convocatoria.findById(id);
-    if (convocatoria.fundacion.toString() !== id) return false;
+    if (convocatoria.fundacion.toString() !== idFundacion) return false;
     return true;
 }
 
 module.exports = {
     emailExiste,
     existeUsuarioPorId,
-    esConvocatoriaDeLaFundacion
+    esConvocatoriaDeLaFundacion,
+    emailExistente
 }

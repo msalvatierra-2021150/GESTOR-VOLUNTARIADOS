@@ -1,6 +1,6 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, default: mongoose } = require('mongoose');
 
-const VoluntarioSchema = Schema({
+const uploadSchema =new Schema({
     nombre: {
         type: String,
         required: [true, 'El nombre es obligatorio']
@@ -14,15 +14,38 @@ const VoluntarioSchema = Schema({
         type: String,
         required: [true, 'El password es obligatorio' ]
     },
+    telefono: {
+        type: Number,
+       
+    },
+    direccion: {
+        type: String,
+        default: true
+    },
     rol: {
         type: String,
-        required: true
-    },
+        default: false
+    }, 
     array_img: {
         type: Array,
         default: []
+    },
+    array_historial_voluntariados: {
+        type: Array,
+        default: []
+    },
+    DPI: {
+        type: String,
+        required: true
+    },
+    CV: {
+        type: String,
+        required: true
+    },
+    antecedentes: {
+        type: String,
+        required: true
     }
 });
 
-
-module.exports = model('Voluntario', VoluntarioSchema);
+module.exports = model('voluntario', uploadSchema);

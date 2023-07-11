@@ -3,6 +3,16 @@ const bcrypt = require('bcryptjs');
 //Importar Modelo
 const adminFundacion = require("../models/adminFundacion");
 
+const getFundacionNombre = async (req = request, res = response) => {
+    try {
+        const regex = new RegExp(req.params.nombre, 'i');
+        const fundaciones = await adminFundacion.find({ nombre: regex });
+        return res.json({ fundaciones });
+    } catch (error) {
+        res.status(500).json({ msg: error })
+    }
+}
+
 const getAdminFundacion = async (req = request, res = response) => {
     try {
         const query = { _id: req.usuario.id };
@@ -46,7 +56,7 @@ const putAdminFundacion = async (req = request, res = response) => {
             //Encriptar password
             const salt = bcrypt.genSaltSync();
             data.password = bcrypt.hashSync(data.password, salt);
-        } 
+        }
         //Guardar en BD
         await adminFundacion.findByIdAndUpdate(id, data);
         return res.json({ msg: 'Fundación modificada correctamente' });
@@ -65,10 +75,21 @@ const deleteAdminFundacion = async (req = request, res = response) => {
     }
 }
 
+const contarFundaciones = async (req = request, res = response) => {
+    try {
+        cantidadFundaciones = await adminFundacion.countDocuments();
+        return res.json({ cantidadFundaciones });
+    } catch (error) {
+        res.status(500).json({ msg: error });
+    }
+}
+
 module.exports = {
+    getFundacionNombre,
     getAdminFundacion,
     getAllAdminsFundaciones,
     postAdminFundacion,
     putAdminFundacion,
-    deleteAdminFundacion
+    deleteAdminFundacion,
+    contarFundaciones
 };

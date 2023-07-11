@@ -3,7 +3,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const express = require('express');
 const { esRoleValido, emailExiste, existeUsuarioPorId, requiredFilesMiddleware } = require('../helpers/db-validators');
-const {postFile,getFile,putFile,deleteFile, getFileArchivo,ruta,getVoluntarioById} = require('../controllers/voluntario');
+const {postFile,getFile,putFile,deleteFile, getFileArchivo,ruta,getVoluntarioById, contarVoluntarios} = require('../controllers/voluntario');
 const uploadMiddleware = require('../middlewares/MulterMiddlewares');
 const router = Router();
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -47,4 +47,9 @@ router.put('/editar/:id', [uploadMiddleware.fields([
 
 router.delete('/eliminar/:id', [
 ] ,deleteFile);
+
+router.get('/contar', [
+] , contarVoluntarios);
+
+
 module.exports = router;

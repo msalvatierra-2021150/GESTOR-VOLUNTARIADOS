@@ -242,11 +242,22 @@ const deleteFile = async (req = request, res = response) => {
     });
   }
 }
+
+const contarVoluntarios = async (req = request, res = response) => {
+  try {
+      cantidadVoluntarios = await UIploadModel.countDocuments();
+      return res.json({cantidadVoluntarios });
+  } catch (error) {
+      res.status(500).json({ msg: error });
+  }
+}
+
 module.exports = {
   postFile,
   getFile,
   putFile,
   deleteFile,
   getFileArchivo,
-  getVoluntarioById
+  getVoluntarioById,
+  contarVoluntarios
 }

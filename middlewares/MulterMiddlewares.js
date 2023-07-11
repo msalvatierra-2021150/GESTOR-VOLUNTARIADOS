@@ -1,31 +1,24 @@
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
-const { log } = require("console");
+
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/archivos");
-    console.log(req.files.length);
+
   },
   filename: function (req, file, cb) {
     cb(null, `${uuidv4()}_${path.extname(file.originalname)}`);
   },
 });
+let arreglo = []
+const fileFilter = (req, file,cb) => {
 
-const fileFilter = (req, file, cb) => {
- 
-  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png","application/pdf"];
-
-  if (req.files.length >= 8) {
-    cb(null, false);
-  }
-  else if (allowedFileTypes.includes(file.mimetype)) {
+  arreglo.push(file);
     cb(null, true);
-  } else {
-    cb(null, false);
   }
-};
+
 
 const uploadMiddleware = multer({ storage, fileFilter });
 

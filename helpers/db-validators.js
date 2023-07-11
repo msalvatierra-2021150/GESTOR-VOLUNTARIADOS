@@ -6,6 +6,25 @@ const Convocatoria = require('../models/convocatoria');
 const { json } = require('express');
 const UIploadModel = require('../models/voluntario');
 
+const requiredFilesMiddleware = (req, res, next,file) => {
+    const expectedFiles = ['CV', 'DPI', 'antecedentes', 'fotoPerfil', 'fotoFondo'];
+    console.log(file);
+    const receivedFiles = req.files
+    console.log(receivedFiles);
+    const missingFiles = expectedFiles.filter(file => !receivedFiles.includes(file));
+  
+    if (missingFiles.length === 0) {
+      // Todos los archivos esperados están presentes
+      next();
+    } else {
+      // Al menos uno de los archivos esperados está faltando
+      const error = new Error('Faltan archivos requeridos');
+      error.status = 400;
+      error.missingFiles = missingFiles;
+      next(error);
+    }
+  };
+
 const emailExistente = async( correo = '' ) => {
     console.log("SE ENTRO");
     //Verificamos si el correo ya existe en la DB
@@ -65,5 +84,6 @@ module.exports = {
     emailExiste,
     existeUsuarioPorId,
     esConvocatoriaDeLaFundacion,
-    emailExistente
+    emailExistente,
+    requiredFilesMiddleware
 }

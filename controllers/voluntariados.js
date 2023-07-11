@@ -108,7 +108,6 @@ const deleteVoluntariados = async (req = request, res = response) => {
         });
     }
 }
-
 const contarVoluntariados = async (req = request, res = response) => {
     try {
         cantidadVoluntariados = await Voluntariados.countDocuments();

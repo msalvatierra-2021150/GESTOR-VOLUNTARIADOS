@@ -21,15 +21,11 @@ const uploadSchema =new Schema({
     direccion: {
         type: String,
         default: true
-    },
+    }, 
     rol: {
         type: String,
         default: false
     }, 
-    array_img: {
-        type: Array,
-        default: []
-    },
     array_historial_voluntariados: {
         type: Array,
         default: []
@@ -43,6 +39,14 @@ const uploadSchema =new Schema({
         required: true
     },
     antecedentes: {
+        type: String,
+        required: true
+    },
+    fotoPerfil: {
+        type: String,
+        required: true
+    },
+    fotoFondo: {
         type: String,
         required: true
     }

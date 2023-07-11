@@ -11,6 +11,8 @@ const router = Router();
 
 router.get('/buscar/:nombre', getFundacionNombre);
 
+const uploadMiddleware = require('../middlewares/MulterMiddlewares');
+ 
 router.get('/mostrar',[
     validarJWT,
     esAdminFundacionRole
@@ -22,15 +24,18 @@ router.get('/mostrar-all',[
 ] ,getAllAdminsFundaciones);
 
 router.post('/agregar', [
-    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    check('password', 'El password debe de ser más de 6 digitos').isLength( { min: 6 } ),
-    check('correo', 'El correo no es valido').isEmail(),
+    uploadMiddleware.fields([
+        { name: 'fotoPerfil', maxCount: 1 },
+        { name: 'fotoFondo', maxCount: 1 },]),
     check('correo').custom( emailExiste ),
     validarCampos,
 ] ,postAdminFundacion);
 
 router.put('/editar', [
     validarJWT,
+    uploadMiddleware.fields([
+        { name: 'fotoPerfil', maxCount: 1 },
+        { name: 'fotoFondo', maxCount: 1 },]),
     esAdminFundacionRole,
     validarCampos
 ] ,putAdminFundacion);

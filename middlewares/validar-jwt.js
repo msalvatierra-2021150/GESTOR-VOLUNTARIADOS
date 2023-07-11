@@ -7,7 +7,7 @@ const Voluntario = require('../models/voluntario');
 
 const validarJWT = async (req = request, res = response, next) => {
     const token = req.header('x-token');
-
+  
     // Si no viene el token
     if (!token) {
       return res.status(401).json({

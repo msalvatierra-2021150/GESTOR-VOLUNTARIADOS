@@ -25,9 +25,9 @@ const convocatoriaSchema = Schema({
         type: Date,
         required: [true, 'La fecha de fin es obligatoria' ]
     },
-    array_img: {
-        type: Array,
-        default: []
+    imagen: {
+        type: String,
+        required: [true, 'La imagen es obligatoria' ]
     },
     fundacion: {
         type: Schema.Types.ObjectId,

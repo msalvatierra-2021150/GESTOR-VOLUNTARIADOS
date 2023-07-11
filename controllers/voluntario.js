@@ -3,62 +3,119 @@ const bcrypt = require('bcryptjs');
 const path = require('path');
 const UIploadModel = require('../models/voluntario');
 const fs = require('fs');
-const uploadMiddleware = require('../middlewares/MulterMiddlewares');
 
-const getVoluntarioNombre = async (req = request, res = response) => {
+
+const getVoluntarioById = async (req = request, res = response) => {
   try {
-    const regexNombre = new RegExp(req.params.nombre, 'i');
-    const voluntario = await UIploadModel.find({
-      $and: [
-        { nombre: regexNombre },
-        { estado: true }
-      ]
-    });
-    return res.json({ voluntario });
+
+      const query = { _id: req.usuario.id };
+
+      const voluntario = await UIploadModel.findById(query);
+  
+      return res.json({ voluntario });
   } catch (error) {
-    res.status(500).json({ msg: error })
-    
+      res.status(500).json({ msg: error });
   }
 }
 
+const eliminar = (objetos)=>{
+  
+  const { CV, DPI, antecedentes, fotoPerfil, fotoFondo } = objetos;
+  CV === undefined ? []:[eliminarArchivos(CV)]
+  DPI === undefined ? []:[eliminarArchivos(DPI)]
+  antecedentes === undefined ? []:[eliminarArchivos(antecedentes)]
+  fotoPerfil === undefined ? []:[eliminarArchivos(fotoPerfil)]
+  fotoFondo === undefined ? []:[eliminarArchivos(fotoFondo)]
+}
+const eliminarArchivos = (nombre)=>{
+  
+  const fondolFilePath = path.resolve('public/archivos', nombre[0].filename);
+ 
+    fs.unlink(fondolFilePath, (error) => {
+      if (error) {
+        console.error('Error al eliminar el archivo:', error);
+      } else {
+      
+      }
+    });
+}
 const postFile = async (req = request, res = response) => {
   try {
-    const photo = req.files.map(file => file.filename);
-    const { nombre, correo, password, telefono, direccion, rol, array_img, array_historial_voluntariados } = req.body;
-    const CV = photo[0]
-    const DPI = photo[1]
-    const antecedentes = photo[2]
+    const { CV, DPI, antecedentes, fotoPerfil, fotoFondo } = req.files;
+    const { nombre, correo, password, telefono, direccion } = req.body;
+    const rol= "VOLUNTARIO_ROLE";
+    
     if (CV ===undefined) {
+      eliminar(req.files);
+      
       return res.status(400).json({
         msg: 'Agregue su CV por favor'
       });
+       
     }
     if (DPI ===undefined) {
+      eliminar(req.files);
       return res.status(400).json({
         msg: 'Agregue su DPI por favor'
       });
     }
-    console.log(antecedentes);
+
     if (antecedentes ===undefined) {
+      eliminar(req.files);
       return res.status(400).json({
         msg: 'Agregue sus antecedentes por por favor'
       });
     }
-    
-
+    if (fotoPerfil ===undefined) {
+      eliminar(req.files);
+      return res.status(400).json({
+        msg: 'Agregue ssu foto de perfil por por favor'
+      });
+    }
+    if (fotoFondo ===undefined) {
+      eliminar(req.files);
+      return res.status(400).json({
+        msg: 'Agregue su foto de fondo por por favor'
+      });
+    }
+    const CVFilename = CV[0].filename;
+    const DPIFilename = DPI[0].filename;
+    const antecedentesFilename = antecedentes[0].filename;
+    let fotoPerfilFilename = fotoPerfil[0].filename;
+    let fotoFondoFilename = fotoFondo[0].filename;
+    fotoPerfilFilename= `http://localhost:8080/archivos/${fotoFondo[0].filename}`
+    fotoFondoFilename=`http://localhost:8080/archivos/${fotoPerfil[0].filename}`
+ 
     const existeEmail = await UIploadModel.findOne({ correo });
 
     if (existeEmail) {
+      eliminar(req.files);
       return res.status(400).json({
         msg:  `El correo ${correo} ya esta registrado`
       });
     }
 
-    const pdfGuardadoDB = new UIploadModel({ nombre, correo, password, telefono, direccion, rol, array_img, array_historial_voluntariados, CV, DPI, antecedentes });
+    const pdfGuardadoDB = new UIploadModel(
+        { nombre, 
+          correo, 
+          password, 
+          telefono, 
+          direccion, 
+          rol, 
+          CV:CVFilename, 
+          DPI:DPIFilename, 
+          antecedentes:antecedentesFilename,
+          fotoPerfil:fotoPerfilFilename,
+          fotoFondo:fotoFondoFilename });
     const salt = bcrypt.genSaltSync();
     pdfGuardadoDB.password = bcrypt.hashSync(password, salt)
     await pdfGuardadoDB.save();
+    return res.json({
+      msg: 'Post Voluntario user',
+      pdfGuardadoDB
+  });
   } catch (err) {
+    console.log(err);
     return res.status(400).send({
       msg: "No se pudo agregar el cliente",
       err,
@@ -82,7 +139,7 @@ const getFile = async (req = request, res = response) => {
     });
   }
 }
-//get de sus archivos para descargar
+//get de sus archivos para descargar 
 const getFileArchivo = async (req = request, res = response) => {
   try {
     const { nombre } = req.params;
@@ -96,66 +153,46 @@ const getFileArchivo = async (req = request, res = response) => {
     });
   }
 }
+const eliminarUpdate = (nombre) =>{
+  const cvFilePath = path.resolve('public/archivos', nombre);
+  fs.unlink(cvFilePath, (error) => {
+   
+  });
+}
 const putFile = async (req = request, res = response) => {
   try {
-  const photo = req.files.map(file => file.filename);
-  const { id, nombre, correo, password, telefono, direccion, rol, array_img, array_historial_voluntariados } = req.body;
-  
-  
-  let CVArchivo = photo[0]
-  let DPIArchivo = photo[1]
-  let antecedentesArchivo = photo[2]
-  const { CV, DPI, antecedentes } = await UIploadModel.findById(id)
-  console.log(CVArchivo);
-  console.log(DPIArchivo);
-  console.log(antecedentesArchivo);
-
-  console.log(CV);
-  console.log(DPI);
-  console.log(antecedentes);
-  if (CVArchivo===undefined ) {
-    CVArchivo=CV
-    console.log("El nuevo CV:",CVArchivo);
-  }else if(CVArchivo!==undefined){
-    const cvFilePath = path.resolve('public/archivos', CV);
-    fs.unlink(cvFilePath, (error) => {
-      if (error) {
-        console.error('Error al eliminar el archivo:', error);
-      } else {
-        console.log('Archivo eliminado CV');
-      }
-    });
+  const archivos= req.files;
+  const { id, nombre, correo, password, telefono, direccion, rol} = req.body;
+    console.log(archivos.CV);
+ 
+  const {CV, DPI, antecedentes, fotoPerfil, fotoFondo} = await UIploadModel.findById(id)
+  let fileCV = CV;
+  let fileDPI = DPI;
+  let fileAntecedentes = antecedentes;
+  let fileFotoP = fotoPerfil;
+  let fileFotoF = fotoFondo;
+  if (archivos.CV!==undefined ) {
+    eliminarUpdate(CV);
+    fileCV = archivos.CV[0].filename;
   }
-  if (DPIArchivo===undefined ) {
-    DPIArchivo=DPI
-    console.log("el nuevo DPI es ",DPIArchivo);
-  }else if(DPIArchivo!==undefined){
-    const dpiFilePath = path.resolve('public/archivos', DPI);
-    fs.unlink(dpiFilePath, (error) => {
-      if (error) {
-        console.error('Error al eliminar el archivo:', error);
-      } else {
-        console.log('Archivo eliminado DPI');
-      }
-    });
+  if (archivos.DPI!==undefined ) {
+    eliminarUpdate(DPI);
+    fileDPI = archivos.DPI[0].filename;
   }
-  if (antecedentesArchivo===undefined ) {
-    antecedentesArchivo=antecedentes
-    console.log("el nuevo antecedente es ",antecedentesArchivo);
-  }else if(antecedentesArchivo!==undefined){
-    const antecedentesFilePath = path.resolve('public/archivos', antecedentes);
-    fs.unlink(antecedentesFilePath, (error) => {
-      if (error) {
-        console.error('Error al eliminar el archivo:', error);
-      } else {
-        console.log('Archivo eliminado ANTECEDENTE');
-      }
-    });
+  if (archivos.antecedentes!==undefined ) {
+    eliminarUpdate(antecedentes);
+    fileAntecedentes = archivos.antecedentes[0].filename;
+  }
+  if (archivos.fotoFondo!==undefined ) {
+    eliminarUpdate(fotoFondo);
+    fileFotoF = `http://localhost:8080/archivos/${archivos.fotoFondo[0].filename}` 
+  }
+  if (archivos.fotoPerfil!==undefined ) {
+    eliminarUpdate(fotoPerfil);
+    fileFotoP = `http://localhost:8080/archivos/${archivos.fotoPerfil[0].filename}` 
   }
 
-  console.log("seguira",CVArchivo);
-  console.log("seguira",DPIArchivo);
-  console.log("seguira",antecedentesArchivo);
+  
   const datos = {
     nombre,
     correo, 
@@ -163,13 +200,12 @@ const putFile = async (req = request, res = response) => {
     telefono, 
     direccion, 
     rol, 
-    array_img, 
-    array_historial_voluntariados,
-    CV:CVArchivo,
-    DPI:DPIArchivo,
-    antecedentes:antecedentesArchivo
+    CV:fileCV,
+    DPI:fileDPI,
+    antecedentes:fileAntecedentes,
+    fotoPerfil:fileFotoP,
+    fotoFondo:fileFotoF
   }
-  console.log(datos);
   const voluntariadoEditado = await UIploadModel.findByIdAndUpdate(id, datos,{new:true});
   return res.json({
     msg: 'PUT editar user',
@@ -177,6 +213,7 @@ const putFile = async (req = request, res = response) => {
 });
 
 } catch (err) {
+  console.log(err);
   res.status(404).send({
       msg: "No se pudo editar el cliente",
       err,
@@ -188,24 +225,16 @@ const deleteFile = async (req = request, res = response) => {
   try {
     const { id } = req.params;
     const voluntario = await UIploadModel.findById(id);
-    const { CV, DPI, antecedentes } = voluntario;
-
-    const cvFilePath = path.resolve('public/archivos', CV);
-    const dpiFilePath = path.resolve('public/archivos', DPI);
-    const antecedentesFilePath = path.resolve('public/archivos', antecedentes);
-    const fileDb = await UIploadModel.findByIdAndDelete(id);
-    const files = [cvFilePath, dpiFilePath, antecedentesFilePath]
-    for (let x = 0; x < files.length; x++) {
-      const element = files[x];
-      fs.unlink(element, (error) => {
-        if (error) {
-          console.error('Error al eliminar el archivo:', error);
-        } else {
-          console.log('Archivo eliminado correctamente');
-        }
-      });
+    const { CV, DPI, antecedentes,fotoFondo,fotoPerfil } = voluntario;
+    const arreglo =[CV, DPI, antecedentes,fotoFondo,fotoPerfil]
+    const voluntarioEliminado = await UIploadModel.findByIdAndDelete(id);
+    for (let x = 0; x < arreglo.length; x++) {
+      const element = arreglo[x];
+      eliminarArchivos(element);
     }
-    res.status(201).json({ msg: 'Rol borrado: ', fileDb });
+   
+
+    res.status(201).json({ msg: 'Voluntario borrado: ' ,voluntarioEliminado});
   } catch (err) {
     res.status(404).send({
       msg: "No se pudo eliminar el evento",
@@ -213,22 +242,11 @@ const deleteFile = async (req = request, res = response) => {
     });
   }
 }
-
-const contarVoluntarios = async (req = request, res = response) => {
-  try {
-      cantidadVoluntarios = await UIploadModel.countDocuments();
-      return res.json({cantidadVoluntarios });
-  } catch (error) {
-      res.status(500).json({ msg: error });
-  }
-}
-
 module.exports = {
-  getVoluntarioNombre,
   postFile,
   getFile,
   putFile,
   deleteFile,
   getFileArchivo,
-  contarVoluntarios
+  getVoluntarioById
 }

@@ -34,9 +34,13 @@ const adminFundacionSchema = Schema({
         type: Number,
         default: 0
     },
-    array_img: {
-        type: Array,
-        default: []
+    fotoPerfil: {
+        type: String,
+        required: true
+    },
+    fotoFondo: {
+        type: String,
+        required: true
     },
     rol: {
         type: String,

@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const aplicacionVoluntariadoSchema = Schema({
     voluntario: {
         type: Schema.Types.ObjectId,
-        ref: 'voluntario',
+        ref: 'Voluntario',
         required: true
     },
     convocatoria: {

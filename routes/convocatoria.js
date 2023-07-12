@@ -5,7 +5,7 @@ const { getConvocatorias, getConvocatoriasCerradas, getConvocatoriasLugar, getCo
 const { emailExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { esAdminAppRole, esAdminFundacionRole } = require('../middlewares/validar-roles');
+const { esAdminAppRole, esAdminFundacionRole, tieneRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
@@ -44,7 +44,7 @@ router.get('/mostrar-activas', [
 //Obtener todas las convocatorias de las fundaciones
 router.get('/mostrar-all', [
     validarJWT,
-    esAdminAppRole,
+    tieneRole('ADMIN_APP', 'ADMIN_FUNDACION'),
     validarCampos
 ], getAllConvocatorias);
 

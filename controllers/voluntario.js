@@ -7,17 +7,16 @@ const uploadMiddleware = require('../middlewares/MulterMiddlewares');
 
 const getVoluntarioNombre = async (req = request, res = response) => {
   try {
+    const desde = Number(req.query.desde) || 0;
+    const limite = Number(req.query.limite) || 5;
     const regexNombre = new RegExp(req.params.nombre, 'i');
-    const voluntario = await UIploadModel.find({
-      $and: [
-        { nombre: regexNombre },
-        { estado: true }
-      ]
-    });
-    return res.json({ voluntario });
+    const [voluntarios, totalVoluntarios] = await Promise.all([
+      UIploadModel.find({ nombre: regexNombre }, 'nombre correo').skip(desde).limit(limite),
+      UIploadModel.find({ nombre: regexNombre }).countDocuments()
+    ]);
+    return res.json({ voluntarios, totalVoluntarios });
   } catch (error) {
     res.status(500).json({ msg: error })
-    
   }
 }
 

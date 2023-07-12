@@ -22,9 +22,14 @@ const getConvocatorias = async (req = request, res = response) => {
 //Fundacion
 const getConvocatoriasCerradas = async (req = request, res = response) => {
     try {
+        const desde = Number(req.query.desde) || 0;
+        const limite = Number(req.query.limite) || 5;
         const query = { fundacion: req.usuario.id, estado: false };
-        const convocatorias = await Convocatoria.find(query);
-        return res.json({ convocatorias });
+        const [convocatorias, totalConvocatoria] = await Promise.all([
+            Convocatoria.find(query).skip(desde).limit(limite),
+            Convocatoria.countDocuments(query)
+        ]);
+        return res.json({ convocatorias, totalConvocatoria });
     } catch (error) {
         res.status(500).json({ msg: error });
     }
@@ -33,26 +38,50 @@ const getConvocatoriasCerradas = async (req = request, res = response) => {
 //Voluntario
 const getConvocatoriasLugar = async (req = request, res = response) => {
     try {
+        const desde = Number(req.query.desde) || 0;
+        const limite = Number(req.query.limite) || 5;
         const regexTitulo = new RegExp(req.params.titulo, 'i');
-        let convocatorias = [];
-        if (req.params.lugar === null){
-            convocatorias = await Convocatoria.find({
-                $and: [
-                    { titulo: regexTitulo },
-                    { estado: true }
-                ]
-            });
-        }else{
+        let coincidencias = [];
+        let registros = 0;
+        if (req.params.lugar === null) {
+            const [convocatorias, totalConvocatoria] = await Promise.all([
+                Convocatoria.find({
+                    $and: [
+                        { titulo: regexTitulo },
+                        { estado: true }
+                    ]
+                }).skip(desde).limit(limite).populate('fundacion', 'nombre'),
+                Convocatoria.countDocuments({
+                    $and: [
+                        { titulo: regexTitulo },
+                        { estado: true }
+                    ]
+                })
+            ]);
+            coincidencias = convocatorias;
+            registros = totalConvocatoria;
+        } else {
             const regexLugar = new RegExp(req.params.lugar, 'i');
-            convocatorias = await Convocatoria.find({
-                $and: [
-                    { lugar: regexLugar },
-                    { titulo: regexTitulo },
-                    { estado: true }
-                ]
-            });
+            const [convocatorias, totalConvocatoria] = await Promise.all([
+                Convocatoria.find({
+                    $and: [
+                        { lugar: regexLugar },
+                        { titulo: regexTitulo },
+                        { estado: true }
+                    ]
+                }).skip(desde).limit(limite).populate('fundacion', 'nombre'),
+                Convocatoria.countDocuments({
+                    $and: [
+                        { lugar: regexLugar },
+                        { titulo: regexTitulo },
+                        { estado: true }
+                    ]
+                })
+            ]);
+            coincidencias = convocatorias;
+            registros = totalConvocatoria;
         }
-        return res.json({ convocatorias });
+        return res.json({ coincidencias, registros });
     } catch (error) {
         res.status(500).json({ msg: error });
     }
@@ -69,11 +98,17 @@ const getConvocatoriasActivas = async (req = request, res = response) => {
     }
 }
 
-//Admin
+//Admin y Fundacion
 const getAllConvocatorias = async (req = request, res = response) => {
     try {
-        const convocatorias = await Convocatoria.find();
-        return res.json({ convocatorias });
+        const desde = Number(req.query.desde) || 0;
+        const limite = Number(req.query.limite) || 5;
+        const query = { fundacion: req.usuario.id, estado: true };
+        const [convocatorias, totalConvocatoria] = await Promise.all([
+            Convocatoria.find(query).skip(desde).limit(limite).populate('fundacion', 'nombre'),
+            Convocatoria.countDocuments()
+        ]);
+        return res.json({ convocatorias, totalConvocatoria });
     } catch (error) {
         res.status(500).json({ msg: error });
     }
@@ -82,9 +117,17 @@ const getAllConvocatorias = async (req = request, res = response) => {
 //Admin
 const getConvocatoriaNombre = async (req = request, res = response) => {
     try {
+        const desde = Number(req.query.desde) || 0;
+        const limite = Number(req.query.limite) || 0;
         const regexNombre = new RegExp(req.params.nombre, 'i');
-        const convocatorias = await Convocatoria.find({ titulo: regexNombre });
-        return res.json({ convocatorias });
+        const [convocatorias, totalConvocatoria] = await Promise.all([
+            Convocatoria.find({ titulo: regexNombre }, 'titulo lugar fecha_inicio fecha_fin cupo')
+                .skip(desde)
+                .limit(limite)
+                .populate('fundacion', 'nombre'),
+            Convocatoria.countDocuments({ titulo: regexNombre })
+        ]);
+        return res.json({ convocatorias, totalConvocatoria });
     } catch (error) {
         res.status(500).json({ msg: error });
     }

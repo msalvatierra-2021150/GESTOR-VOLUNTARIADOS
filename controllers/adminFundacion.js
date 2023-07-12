@@ -5,9 +5,14 @@ const adminFundacion = require("../models/adminFundacion");
 
 const getFundacionNombre = async (req = request, res = response) => {
     try {
+        const desde = Number(req.query.desde) || 0;
+        const limite = Number(req.query.limite) || 5;
         const regex = new RegExp(req.params.nombre, 'i');
-        const fundaciones = await adminFundacion.find({ nombre: regex });
-        return res.json({ fundaciones });
+        const [fundaciones, totalFundaciones] = await Promise.all([
+            adminFundacion.find({ nombre: regex }, 'nombre correo sitio_web telefono').skip(desde).limit(limite),
+            adminFundacion.find({ nombre: regex }).countDocuments()
+        ]);
+        return res.json({ fundaciones, totalFundaciones });
     } catch (error) {
         res.status(500).json({ msg: error })
     }

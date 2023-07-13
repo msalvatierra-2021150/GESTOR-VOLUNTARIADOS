@@ -103,9 +103,14 @@ const getConvocatoriasLugar = async (req = request, res = response) => {
 //Voluntario
 const getConvocatoriasActivas = async (req = request, res = response) => {
     try {
+        const desde = Number(req.query.desde) || 0;
+        const limite = Number(req.query.limite) || 5;
         const query = { estado: true };
-        const convocatorias = await Convocatoria.find(query);
-        return res.json({ convocatorias });
+        const [ coincidencias, registros ] = await Promise.all([
+            Convocatoria.find(query).skip(desde).limit(limite).populate('fundacion', 'nombre'),
+            Convocatoria.countDocuments(query)
+        ]);
+        return res.json({ coincidencias, registros });
     } catch (error) {
         res.status(500).json({ msg: error });
     }

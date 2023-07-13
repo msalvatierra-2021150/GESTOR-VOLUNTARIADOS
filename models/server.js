@@ -15,6 +15,7 @@ class Server {
             adminApp:   '/api/admin',
             adminFundacion:   '/api/adminFundacion',
             aplicacionVoluntariado: '/api/aplicacionVoluntariado',
+            contadoresConvocatoria: '/api/contadoresConvo',
             convocatoria: '/api/convocatoria',
             voluntario:   '/api/voluntario',
             voluntariados: '/api/voluntariados'
@@ -57,6 +58,7 @@ class Server {
         this.app.use(this.paths.adminApp, require('../routes/admin'));
         this.app.use(this.paths.adminFundacion, require('../routes/adminFundacion'));
         this.app.use(this.paths.aplicacionVoluntariado, require('../routes/aplicacionVoluntariado'));
+        this.app.use(this.paths.contadoresConvocatoria, require('../routes/contadoresConvocatoria'));
         this.app.use(this.paths.convocatoria, require('../routes/convocatoria'));
         this.app.use(this.paths.voluntario, require('../routes/voluntario')); 
         this.app.use(this.paths.voluntario, require('../routes/voluntario'));

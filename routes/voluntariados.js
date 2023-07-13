@@ -20,6 +20,6 @@ router.delete('/eliminar/:id', [
 ] ,deleteVoluntariados);
 
 router.get('/contar', [
-] ,contarVoluntariados);
+] ,contarVoluntariados );
 
 module.exports = router;

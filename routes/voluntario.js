@@ -3,15 +3,21 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const express = require('express');
 const { esRoleValido, emailExiste, existeUsuarioPorId, requiredFilesMiddleware } = require('../helpers/db-validators');
-const {postFile,getFile,putFile,deleteFile, getFileArchivo,ruta,getVoluntarioById, contarVoluntarios} = require('../controllers/voluntario');
+const {postFile,getFile,putFile,deleteFile, getFileArchivo,ruta,getVoluntarioById, contarVoluntarios, getVoluntarioNombre} = require('../controllers/voluntario');
 const uploadMiddleware = require('../middlewares/MulterMiddlewares');
 const router = Router();
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { esAdminAppRole } = require('../middlewares/validar-roles');
 const path = require('path');
+
 
 const publicFolderPath = path.join(__dirname, 'public');
 
+router.get('/buscar/:nombre',[
+    validarJWT,
+    esAdminAppRole
+],getVoluntarioNombre);
 
 router.use('/archivos', express.static(path.join(publicFolderPath, 'archivos')));
 

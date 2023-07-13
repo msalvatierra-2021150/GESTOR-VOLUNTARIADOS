@@ -75,7 +75,7 @@ router.get(
 //Obtener todas las convocatorias de las fundaciones
 router.get(
   "/mostrar-all",
-  [validarJWT, esAdminAppRole, validarCampos],
+  [validarJWT, validarCampos],
   getAllConvocatorias
 );
 

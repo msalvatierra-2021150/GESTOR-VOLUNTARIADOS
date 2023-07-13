@@ -108,6 +108,7 @@ const deleteVoluntariados = async (req = request, res = response) => {
         });
     }
 }
+
 const contarVoluntariados = async (req = request, res = response) => {
     try {
         cantidadVoluntariados = await Voluntariados.countDocuments();
@@ -116,7 +117,6 @@ const contarVoluntariados = async (req = request, res = response) => {
         res.status(500).json({ msg: error });
     }
 }
-
 module.exports = {
     getVolunrariados,
     deleteVoluntariados,

@@ -10,8 +10,22 @@ const getAplicaciones = async (req = request, res = response) => {
     try {
         const id = req.params.id;
         const query = { convocatoria: id };
-        const aplicaciones = await AplicacionVoluntariado.find(query);
-        return res.json({ aplicaciones });
+        const desde = Number(req.query.desde) || 0;
+        const limite = Number(req.query.limite) || 10;
+        const [aplicaciones, totalAplicaciones] = await Promise.all([
+            AplicacionVoluntariado.find(query)
+                .populate({
+                    path: 'voluntario',
+                    select: 'nombre correo'
+                })
+                .populate('convocatoria', 'lugar')
+                .select('voluntario estado fecha')
+                .skip(desde)
+                .limit(limite),
+            AplicacionVoluntariado.countDocuments(query)
+        ]);
+
+        return res.json({ aplicaciones, totalAplicaciones });
     } catch (error) {
         res.status(500).json({ msg: error });
     }
@@ -22,8 +36,8 @@ const getAplicacionesId = async (req = request, res = response) => {
     try {
         const id = req.params.id;
         const aplicacion = await AplicacionVoluntariado.findById(id)
-        .populate('voluntario', 'nombre correo telefono')
-        .populate('convocatoria', 'titulo lugar');
+            .populate('voluntario', 'nombre correo telefono')
+            .populate('convocatoria', 'titulo lugar');
         return res.json({ aplicacion });
     } catch (error) {
         res.status(500).json({ msg: error });
@@ -79,7 +93,7 @@ const postAplicacion = async (req = request, res = response) => {
         await aplicacionVoluntariado.save();
         return res.json({ msg: 'Realizo su aplicación correctamente' });
     } catch (error) {
-        res.status(500).json({ msg: error.message });
+        res.status(500).json({ msg: error });
     }
 }
 
@@ -124,11 +138,11 @@ const aceptarAplicacion = async (req = request, res = response) => {
         //Modificar la aplicacion
         await AplicacionVoluntariado.findByIdAndUpdate(id, { estado: 'Aceptado' });
         //Crear un nuevo registro en voluntariados_activos
-        const voluntariadoActivo = new VoluntariadoActivo({ 
-            voluntario: aplicacion.voluntario, 
-            convocatoria_voluntariado: aplicacion.convocatoria, 
-            fechaHoraInicio: Date.now(), 
-            fechaHoraFin: null 
+        const voluntariadoActivo = new VoluntariadoActivo({
+            voluntario: aplicacion.voluntario,
+            convocatoria_voluntariado: aplicacion.convocatoria,
+            fechaHoraInicio: Date.now(),
+            fechaHoraFin: Date.now()
         });
         await voluntariadoActivo.save();
         //Disminuir el cupo de la convocatoria

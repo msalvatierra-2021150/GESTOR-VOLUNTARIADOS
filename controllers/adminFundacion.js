@@ -9,7 +9,7 @@ const getFundacionNombre = async (req = request, res = response) => {
         const limite = Number(req.query.limite) || 5;
         const regex = new RegExp(req.params.nombre, 'i');
         const [fundaciones, totalFundaciones] = await Promise.all([
-            adminFundacion.find({ nombre: regex }, 'nombre correo sitio_web telefono').skip(desde).limit(limite),
+            adminFundacion.find({ nombre: regex }, 'nombre correo sitio_web telefono fotoPerfil').skip(desde).limit(limite),
             adminFundacion.find({ nombre: regex }).countDocuments()
         ]);
         return res.json({ fundaciones, totalFundaciones });

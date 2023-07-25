@@ -8,6 +8,7 @@ const voluntariados = require("../models/voluntariados");
 const convocatoria = require("../models/convocatoria");
 const aplicacionVoluntariado = require("../models/aplicacionVoluntariado");
 const fs = require("fs");
+const { eliminarFile } = require("../helpers/configByFireBase");
 
 const getAdmin = async (req = request, res = response) => {
   try {
@@ -101,54 +102,58 @@ const getAplicacionFundacion = async (req = request, res = response) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
-const eliminarArchivos = (nombre) => {
-  const publicFolderPath = path.join(__dirname, "../public/archivos");
-  const ruta = nombre;
-  const partes = ruta.split("/");
-  const ultimaPalabra = partes[partes.length - 1];
-  let rutaEliminar = `${publicFolderPath}\\${ultimaPalabra}`;
-  fs.unlink(rutaEliminar, (error) => {
-    if (error) {
-      console.error("Error al eliminar el archivo:", error);
-    } else {
-    }
-  });
-};
-const eliminar = (objetos) => {
-  const { fotoPerfil, fotoFondo } = objetos;
-  fotoPerfil === undefined ? [] : [eliminarArchivos(fotoPerfil)];
-  fotoFondo === undefined ? [] : [eliminarArchivos(fotoFondo)];
-};
+
+
 const postAdmin = async (req = request, res = response) => {
   //Desestructuración
-  const { nombre, correo, password } = req.body;
-  const { fotoPerfil, fotoFondo } = req.files;
+  const { nombre, correo, password ,fotoPerfil, fotoFondo} = req.body;
   const rol = req.body.rol || "ADMIN_APP";
-
-  if (fotoPerfil === undefined) {
-    eliminar(req.files);
-
+ 
+  if (fotoPerfil === '') {
     return res.status(400).json({
-      msg: "Agregue su foto de perfil por favor",
+        msg: 'Agregue ssu foto de perfil por por favor'
     });
-  }
-  if (fotoFondo === undefined) {
-    eliminar(req.files);
+}
+if (fotoFondo === '') {
     return res.status(400).json({
-      msg: "Agregue su foto de fondo por favor",
+        msg: 'Agregue su foto de fondo por por favor'
     });
-  }
-  let fotoPerfilFilename = fotoPerfil[0].filename;
-  let fotoFondoFilename = fotoFondo[0].filename;
-  fotoPerfilFilename = `http://localhost:8080/archivos/${fotoFondo[0].filename}`;
-  fotoFondoFilename = `http://localhost:8080/archivos/${fotoPerfil[0].filename}`;
+}
+if (correo === '') {
+  eliminarFile(fotoFondo);
+  eliminarFile(fotoPerfil);
+  return res.status(400).json({
+      msg: 'Agregue su correo por favor'
+  });
+}
+if (password === '') {
+  eliminarFile(fotoFondo);
+  eliminarFile(fotoPerfil);
+  return res.status(400).json({
+      msg: 'Agregue su password por favor'
+  });
+}
+if (nombre === '') {
+  eliminarFile(fotoFondo);
+  eliminarFile(fotoPerfil);
+  return res.status(400).json({
+      msg: 'Agregue su nombre por favor'
+  });
+}
+const existeEmail = await adminApp.findOne({ correo });
+if (existeEmail) {
+
+  return res.status(400).json({
+      msg: `El correo ${correo} ya esta registrado`
+  });
+}
   const adminAppGuardadoDB = new adminApp({
     nombre,
     correo,
     password,
     rol,
-    fotoPerfil: fotoPerfilFilename,
-    fotoFondo: fotoFondoFilename,
+    fotoPerfil,
+    fotoFondo,
   });
 
   //Encriptar password
@@ -167,27 +172,29 @@ const postAdmin = async (req = request, res = response) => {
 const putAdmin = async (req = request, res = response) => {
   //Req.params sirve para traer parametros de las rutas
   const id = req.usuario.id;
-  const archivos = req.files;
-  const { nombre, correo, password, rol } = req.body;
+
+  const { nombre, correo, password ,fotoPerfil, fotoFondo} = req.body;
+  console.log(fotoPerfil);
+  console.log(fotoFondo);
   //Los parametros img, rol, estado y google no se modifican, el resto de valores si (nombre, correo y password)
   //Si la password existe o viene en el req.body, la encripta
-  const { fotoPerfil, fotoFondo } = await adminApp.findById(id);
-  let fileFotoP = fotoPerfil;
-  let fileFotoF = fotoFondo;
-
-  if (archivos.fotoFondo !== undefined) {
-    eliminarUpdate(fotoFondo);
-    fileFotoF = `http://localhost:8080/archivos/${archivos.fotoFondo[0].filename}`;
-  }
-  if (archivos.fotoPerfil !== undefined) {
-    eliminarUpdate(fotoPerfil);
-    fileFotoP = `http://localhost:8080/archivos/${archivos.fotoPerfil[0].filename}`;
-  }
+  const adminFiles= await adminApp.findById(id);
+  let fileFotoP = adminFiles.fotoPerfil;
+  let fileFotoF = adminFiles.fotoFondo;
+  if (fotoPerfil !== '') {
+           
+    eliminarFile(fileFotoP);
+    fileFotoP = fotoPerfil
+}
+if (fotoFondo !== '') {
+            
+  eliminarFile(fileFotoF);
+  fileFotoF = fotoFondo
+}
   const datos = {
     nombre,
     correo,
     password,
-    rol,
     fotoPerfil: fileFotoP,
     fotoFondo: fileFotoF,
   };
@@ -198,7 +205,7 @@ const putAdmin = async (req = request, res = response) => {
     usuarioEditado: adminAppEditado,
   });
 };
-
+ 
 const deleteAdmin = async (req = request, res = response) => {
   //Req.params sirve para traer parametros de las rutas
   const { id } = req.usuario;
@@ -212,7 +219,7 @@ const deleteAdmin = async (req = request, res = response) => {
   for (let x = 0; x < arreglo.length; x++) {
     const element = arreglo[x];
 
-    eliminarArchivos(element);
+    eliminarFile(element);
   }
 
   return res.json({

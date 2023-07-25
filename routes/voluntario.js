@@ -3,7 +3,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const express = require('express');
 const { esRoleValido, emailExiste, existeUsuarioPorId, requiredFilesMiddleware } = require('../helpers/db-validators');
-const {postFile,getFile,putFile,deleteFile, getFileArchivo,ruta,getVoluntarioById, contarVoluntarios, getVoluntarioNombre} = require('../controllers/voluntario');
+const {postFile,getFile,putFile,deleteFile,getVoluntarioByIdF, getFileArchivo,ruta,getVoluntarioById, contarVoluntarios, getVoluntarioNombre} = require('../controllers/voluntario');
 const uploadMiddleware = require('../middlewares/MulterMiddlewares');
 const router = Router();
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -30,26 +30,14 @@ router.get("/fileVoluntario/:nombre", getFileArchivo);
 
 router.get("/voluntario", getFile);
 
+router.post("/voluntarioF", getVoluntarioByIdF);
+
 router.get("/voluntarioById",[
     validarJWT,validarCampos] ,getVoluntarioById);
 
-router.post("/save",[
-  
-    uploadMiddleware.fields([
-      {name: 'CV', maxCount: 1},
-      { name: 'DPI', maxCount: 1 },
-      { name: 'antecedentes', maxCount: 1 },
-      { name: 'fotoPerfil', maxCount: 1 },
-      { name: 'fotoFondo', maxCount: 1 },]),
-   
-],postFile);
+router.post("/save",postFile);
 
-router.put('/editar/:id', [uploadMiddleware.fields([
-  {name: 'CV', maxCount: 1},
-  { name: 'DPI', maxCount: 1 },
-  { name: 'antecedentes', maxCount: 1 },
-  { name: 'fotoPerfil', maxCount: 1 },
-  { name: 'fotoFondo', maxCount: 1 },]) ],putFile);
+router.put('/editar/:id',putFile);
 
 router.delete('/eliminar/:id', [
 ] ,deleteFile);

@@ -3,12 +3,11 @@ const { Schema, model, default: mongoose } = require('mongoose');
 const voluntariadosdSchema =new Schema({
     convocatoria_voluntariado: {
         type: Schema.Types.ObjectId,
-        ref: 'convocatoria_voluntariado ',
+        ref: 'Convocatoria',
         required: false
     },
-    voluntario : {
-        type: Schema.Types.ObjectId,
-        ref: 'voluntario  ',
+    voluntarios : {
+        type: [],
         required: false
     },
     estado: {

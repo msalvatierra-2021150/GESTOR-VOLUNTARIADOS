@@ -62,17 +62,11 @@ router.get('/mostrarAplicacionesF/:id',[
 ] ,getAplicacionFundacion);
 
 router.post('/agregar', [
-    uploadMiddleware.fields([
-        { name: 'fotoPerfil', maxCount: 1 },
-        { name: 'fotoFondo', maxCount: 1 },]),
     validarCampos,
 ] ,postAdmin);
 
 router.put('/editar', [
     validarJWT,
-    uploadMiddleware.fields([
-        { name: 'fotoPerfil', maxCount: 1 },
-        { name: 'fotoFondo', maxCount: 1 },]),
     esAdminAppRole,
     validarCampos
 ] ,putAdmin);

@@ -26,7 +26,6 @@ router.get('/mostrar/:id', [
 //Obtener todas las aplicaciones de un voluntario
 router.get('/mostrar-voluntario', [
     validarJWT,
-    esVoluntarioRole,
     validarCampos
 ], getAplicacionesVoluntario);
 
@@ -40,7 +39,6 @@ router.get('/mostrar-all', [
 //Aplicar a una convocatoria publicada por una fundación
 router.post('/aplicar/:id', [
     validarJWT,
-    esVoluntarioRole,
     validarCampos
 ], postAplicacion);
 

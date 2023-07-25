@@ -33,23 +33,9 @@ router.get("/voluntario", getFile);
 router.get("/voluntarioById",[
     validarJWT,validarCampos] ,getVoluntarioById);
 
-router.post("/save",[
-  
-    uploadMiddleware.fields([
-      {name: 'CV', maxCount: 1},
-      { name: 'DPI', maxCount: 1 },
-      { name: 'antecedentes', maxCount: 1 },
-      { name: 'fotoPerfil', maxCount: 1 },
-      { name: 'fotoFondo', maxCount: 1 },]),
-   
-],postFile);
+router.post("/save",postFile);
 
-router.put('/editar/:id', [uploadMiddleware.fields([
-  {name: 'CV', maxCount: 1},
-  { name: 'DPI', maxCount: 1 },
-  { name: 'antecedentes', maxCount: 1 },
-  { name: 'fotoPerfil', maxCount: 1 },
-  { name: 'fotoFondo', maxCount: 1 },]) ],putFile);
+router.put('/editar/:id',putFile);
 
 router.delete('/eliminar/:id', [
 ] ,deleteFile);

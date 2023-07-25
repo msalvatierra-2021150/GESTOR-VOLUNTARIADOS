@@ -16,7 +16,7 @@ const getAplicaciones = async (req = request, res = response) => {
             AplicacionVoluntariado.find(query)
                 .populate({
                     path: 'voluntario',
-                    select: 'nombre correo'
+                    select: 'nombre correo DPI CV antecedentes'
                 })
                 .populate('convocatoria', 'lugar')
                 .select('voluntario estado fecha')
@@ -49,7 +49,14 @@ const getAplicacionesVoluntario = async (req = request, res = response) => {
     try {
         const id = req.usuario.id;
         const query = { voluntario: id };
-        const aplicaciones = await AplicacionVoluntariado.find(query);
+        const aplicaciones = await AplicacionVoluntariado.find(query).populate({
+            path: 'convocatoria',
+            select: 'titulo',
+            populate: {
+                path: 'fundacion',
+                select: 'fotoPerfil',
+              }
+        });
         return res.json({ aplicaciones });
     } catch (error) {
         res.status(500).json({ msg: error });

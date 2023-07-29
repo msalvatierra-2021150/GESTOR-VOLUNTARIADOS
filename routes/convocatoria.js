@@ -80,28 +80,18 @@ router.get(
 );
 
 //Crear una convocatoria
-router.post(
-  "/agregar",
-  [
-    validarJWT,
-    uploadMiddleware.fields([{ name: "imagen", maxCount: 1 }]),
-    esAdminFundacionRole,
-    validarCampos,
-  ],
-  postConvocatoria
-);
+router.post('/agregar', [
+  validarJWT,
+  esAdminFundacionRole,
+  validarCampos
+], postConvocatoria);
 
 //Editar una convocatoria
-router.put(
-  "/editar/:id",
-  [
-    validarJWT,
-    uploadMiddleware.fields([{ name: "imagen", maxCount: 1 }]),
-    esAdminFundacionRole,
-    validarCampos,
-  ],
-  putConvocatoria
-);
+router.put('/editar/:id', [
+  validarJWT,
+  esAdminFundacionRole,
+  validarCampos
+], putConvocatoria);
 
 //Eliminar una convocatoria
 router.delete(

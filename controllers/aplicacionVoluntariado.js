@@ -4,10 +4,13 @@ const Convocatoria = require('../models/convocatoria');
 const AplicacionVoluntariado = require('../models/aplicacionVoluntariado');
 const ContadoresConvocatoria = require('../models/contadoresConvocatoria');
 const VoluntariadoActivo = require('../models/voluntariados');
+const voluntario = require('../models/voluntario');
+const adminApp = require('../models/adminApp');
 
 //Fundacion
 const getAplicaciones = async (req = request, res = response) => {
     try {
+        
         const id = req.params.id;
         const query = { convocatoria: id };
         const desde = Number(req.query.desde) || 0;
@@ -16,6 +19,10 @@ const getAplicaciones = async (req = request, res = response) => {
             AplicacionVoluntariado.find(query)
                 .populate({
                     path: 'voluntario',
+                    select: 'nombre correo DPI CV antecedentes'
+                })
+                .populate({
+                    path: 'admin',
                     select: 'nombre correo'
                 })
                 .populate('convocatoria', 'lugar')
@@ -24,7 +31,8 @@ const getAplicaciones = async (req = request, res = response) => {
                 .limit(limite),
             AplicacionVoluntariado.countDocuments(query)
         ]);
-
+       
+        console.log(aplicaciones);
         return res.json({ aplicaciones, totalAplicaciones });
     } catch (error) {
         res.status(500).json({ msg: error });
@@ -49,7 +57,14 @@ const getAplicacionesVoluntario = async (req = request, res = response) => {
     try {
         const id = req.usuario.id;
         const query = { voluntario: id };
-        const aplicaciones = await AplicacionVoluntariado.find(query);
+        const aplicaciones = await AplicacionVoluntariado.find(query).populate({
+            path: 'convocatoria',
+            select: 'titulo',
+            populate: {
+                path: 'fundacion',
+                select: 'fotoPerfil',
+              }
+        });
         return res.json({ aplicaciones });
     } catch (error) {
         res.status(500).json({ msg: error });
@@ -69,10 +84,24 @@ const getAllAplicaciones = async (req = request, res = response) => {
 //User
 const postAplicacion = async (req = request, res = response) => {
     try {
-        const body = {
-            voluntario: req.usuario.id,
-            convocatoria: req.params.id,
-        };
+            let body={};
+            const voluntarioFind = await voluntario.findById(req.usuario.id);
+            if(voluntarioFind){
+                body = {
+                    voluntario: req.usuario.id,
+                    convocatoria: req.params.id,
+                    admin:null
+                };
+            }
+            const admin = await adminApp.findById(req.usuario.id);
+            if (admin) {
+                body = {
+                admin: req.usuario.id,
+                convocatoria: req.params.id,
+                voluntario:null
+            }
+            };
+        
         //Validar que exista la convocatoria
         const convocatoria = await Convocatoria.findById(req.params.id);
         if (!convocatoria) return res.status(404).json({ msg: 'No existe la convocatoria' });
@@ -80,7 +109,8 @@ const postAplicacion = async (req = request, res = response) => {
         if (convocatoria.cupo <= 0) return res.status(400).json({ msg: 'No hay cupo disponible' });
         //Validar que el voluntario no se encuentre aplicado a la convocatoria
         const aplicacion = await AplicacionVoluntariado.findOne({ voluntario: req.usuario.id, convocatoria: req.params.id });
-        if (aplicacion) return res.status(400).json({ msg: 'Ya se encuentra aplicado a esta convocatoria' });
+        const aplicacionA = await AplicacionVoluntariado.findOne({ admin: req.usuario.id, convocatoria: req.params.id });
+        if (aplicacion||aplicacionA) return res.status(400).json({ msg: 'Ya se encuentra aplicado a esta convocatoria' });
         //Validar que exista el contador de la convocatoria
         const contador = await ContadoresConvocatoria.findOne({ convocatoria: req.params.id });
         if (!contador) return res.status(404).json({ msg: 'No existe el contador de la convocatoria' });
@@ -93,6 +123,7 @@ const postAplicacion = async (req = request, res = response) => {
         await aplicacionVoluntariado.save();
         return res.json({ msg: 'Realizo su aplicación correctamente' });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ msg: error });
     }
 }

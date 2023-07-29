@@ -4,7 +4,12 @@ const aplicacionVoluntariadoSchema = Schema({
     voluntario: {
         type: Schema.Types.ObjectId,
         ref: 'voluntario',
-        required: true
+        
+    },
+    admin: {
+        type: Schema.Types.ObjectId,
+        ref: 'AdminApp',
+       
     },
     convocatoria: {
         type: Schema.Types.ObjectId,
